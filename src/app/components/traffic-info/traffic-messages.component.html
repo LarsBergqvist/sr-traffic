@@ -1,0 +1,89 @@
+<div>
+    <div>
+        <span>
+            <p-button (click)="onClick()">Nära</p-button>
+        </span>
+        <span class="cat-dd">
+            <p-dropdown [(ngModel)]="selectedArea" [options]="areaOptions" (onChange)="onAreaChanged($event)"
+                placeholder="Område"></p-dropdown>
+        </span>
+    </div>
+
+    <div>
+        Longitude: {{long}}
+    </div>
+    <div>
+        Latitude: {{lat}}
+    </div>
+    <div *ngIf="trafficArea">
+        Closest traffic area: {{trafficArea.name}}
+    </div>
+    <div *ngIf="messages">
+        <!--div *ngFor="let m of messages; index as i;">
+            {{m.description}}
+        </div-->
+        <p-table #dt [value]="messages" [paginator]="true" [rows]="pageSize" [responsive]=" true"
+            [globalFilterFields]="['title','description']" styleClass="sr-table">
+            <ng-template pTemplate="caption">
+                <div class="p-d-flex">
+                    <span class="p-input-icon-left p-ml-auto">
+                        <i class="pi pi-search"></i>
+                        <input pInputText class="p-inputtext-sm kw-input" type="text"
+                            (input)="dt.filterGlobal($event.target.value, 'contains')"
+                            placeholder="{{'SearchKeyword' | translate | uppercase}}" />
+                    </span>
+                </div>
+            </ng-template>
+            <ng-template pTemplate="header">
+                <tr>
+                    <th pSortableColumn="title">{{'Titel' | translate | uppercase }}<p-sortIcon field="title">
+                        </p-sortIcon>
+                    </th>
+                    <th pSortableColumn="category">{{'Kategori' | translate | uppercase }}<p-sortIcon field="category">
+                        </p-sortIcon>
+                    </th>
+                    <th pSortableColumn="subcategory">{{'Typ' | translate | uppercase }}<p-sortIcon field="subcategory">
+                        </p-sortIcon>
+                    </th>
+                    <th pSortableColumn="createddate">{{'Datum' | translate | uppercase }}<p-sortIcon
+                            field="createddate">
+                        </p-sortIcon>
+                    </th>
+                    <th>Plats</th>
+                    <th>{{'Description' | translate | uppercase}}</th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-message>
+                <tr (click)="onClickMessage(message)">
+                    <td>
+                        <div class={{getStyleClassForPriority(message.priority)}}>
+                            {{message.priorityName}}
+                        </div>
+                        <div>
+                            <b>{{message.title}} ({{message.subCategory}})</b>
+                        </div>
+                        <div *ngIf="message.distance">
+                            Avstånd: {{message.distance}} km
+                        </div>
+                    </td>
+                    <td>
+                        {{message.categoryName}}
+                    </td>
+                    <td>
+                        {{message.subCategory}}
+                    </td>
+                    <td>
+                        {{message.createdDate | date:'medium'}}
+                    </td>
+                    <td>
+                        {{message.exactLocation}}
+                    </td>
+                    <td class="description-td">
+                        {{message.description}}
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+
+    </div>
+</div>

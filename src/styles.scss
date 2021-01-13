@@ -1,0 +1,154 @@
+@import '../node_modules/primeicons/primeicons.css';
+@import '../node_modules/primeng/resources/themes/rhea/theme.css';
+@import '../node_modules/primeng/resources/primeng.min.css';
+@import '../node_modules/primeflex/primeflex.css';
+
+* {
+  font-family: 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+.play-button {
+  font-size: 2.5em;
+  float: right;
+  vertical-align: middle;
+}
+
+.clickable {
+  cursor: pointer;
+}
+
+.sr-sidebar {
+  width: 60% !important;
+}
+
+.yellow-fav {
+  color: #cccc00;
+  font-size: 2em;
+  vertical-align: middle;
+}
+
+.fav-but {
+  float: right;
+  font-size: 2.5em;
+}
+
+.kw-input {
+  max-width: 300px;
+}
+
+.prg-chan {
+  display: none;
+}
+
+.prg-chan-td {
+}
+
+.kw-input {
+  max-width: 300px;
+}
+
+.cat-dd {
+  margin-left: 100px;
+  max-width: 150px;
+}
+@media only screen and (max-width: 800px) {
+  .kw-input {
+    max-width: 180px;
+  }
+  .cat-dd {
+    margin-left: 30px;
+    .p-dropdown.p-component {
+      max-width: 200px;
+    }
+  }
+}
+
+@media only screen and (max-width: 640px) {
+  .clickable:hover {
+    display: initial;
+  }
+  .sr-sidebar {
+    width: 100% !important;
+  }
+  .channel-tag-line {
+    display: none !important;
+  }
+  .channel-type {
+    display: none !important;
+  }
+  .prg-chan {
+    display: initial;
+  }
+  .prg-chan-td {
+    display: none !important;
+  }
+  .fav-chk {
+    max-width: 100px;
+  }
+  .kw-input {
+    max-width: 150px;
+  }
+  .cat-dd {
+    margin-left: 10px;
+    .p-dropdown.p-component {
+      max-width: 200px;
+    }
+  }
+}
+
+@media only screen and (max-width: 540px) {
+  .kw-input {
+    max-width: 100px;
+  }
+  .cat-dd {
+    margin-left: 10px;
+    .p-dropdown.p-component {
+      max-width: 100px;
+    }
+  }
+}
+@media only screen and (max-width: 320px) {
+  .kw-input {
+    max-width: 80px;
+  }
+
+  .cat-dd {
+    margin-left: 2px;
+    .p-dropdown.p-component {
+      max-width: 80px;
+    }
+  }
+}
+
+.details-button {
+  font-size: 2.5em;
+  float: right;
+  vertical-align: middle;
+}
+
+.details-button-smaller {
+  font-size: 1.5em;
+}
+
+.close-button {
+  font-size: 2.5em;
+  font-weight: bold;
+  vertical-align: middle;
+  padding-right: 10px;
+}
+
+.p-sidebar-active {
+  overflow-y: scroll;
+}
+
+.details-header-text {
+  font-weight: bold;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  margin-right: 20px !important;
+}
+
+.clear {
+  clear: both;
+}

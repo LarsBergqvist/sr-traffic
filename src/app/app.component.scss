@@ -1,0 +1,22 @@
+.content {
+    padding-top: 210px;
+}
+
+.header {
+    overflow: hidden;
+    position: fixed;
+    top: -8px;
+    width: calc(100% - 16px);
+    z-index: 1000;
+    margin-left: 0px;
+    background-color: white;
+    opacity: 1;
+    max-height: 230px;
+    min-height: 230px;
+}
+
+:host ::ng-deep {
+    .p-toast.p-component.p-toast-top-center {
+        max-width: 300px;
+    }
+}
