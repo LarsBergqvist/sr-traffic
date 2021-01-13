@@ -1,10 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { LazyLoadEvent, SelectItem } from 'primeng/api';
 import { ErrorOccurredMessage } from 'src/app/messages/error-occurred.message';
-import { UpdateMapMessage } from 'src/app/messages/update-map.message';
 import { Location } from 'src/app/models/location';
 import { TrafficArea } from 'src/app/models/traffic-area';
-import { TrafficMessage } from 'src/app/models/traffic-messages';
 import { MessageBrokerService } from 'src/app/services/message-broker.service';
 import { TrafficService } from 'src/app/services/traffic.service';
 import { convertFromJSONstring } from 'src/app/utils/date-helper';
@@ -81,24 +79,6 @@ export class TrafficMessagesComponent implements OnInit {
         return area;
     }
 
-    getStyleClassForPriority(prio: number): string {
-        let style = 'priority-ctn';
-        switch (prio) {
-            case 1:
-                style += ' prio-highest';
-                break;
-            case 2:
-                style += ' prio-higher';
-                break;
-            case 3:
-                style += ' prio-high';
-                break;
-            default:
-                style += ' prio-info';
-        }
-
-        return style;
-    }
     onClick() {
         navigator.geolocation.getCurrentPosition(
             async (position) => {
@@ -158,17 +138,6 @@ export class TrafficMessagesComponent implements OnInit {
         if (event.value !== '') {
             this.trafficArea = this.getAreaFromId(event.value);
             await this.fetchMessagesForArea(0);
-            //      dt.filter(event.value, 'programcategory.id', 'equals');
         }
-    }
-
-    onClickMessage(message: TrafficMessage) {
-        this.location = {
-            latitude: message.latitude,
-            longitude: message.longitude,
-            name: message.title,
-            zoom: this.trafficArea.zoom
-        };
-        this.broker.sendMessage(new UpdateMapMessage(this.location));
     }
 }

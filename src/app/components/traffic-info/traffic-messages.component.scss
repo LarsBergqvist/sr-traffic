@@ -1,28 +1,13 @@
-.priority-ctn {
-    border-radius: 0.25rem;
-    font-weight: 900;
-    font-family: Source Sans Pro, sans-serif;
-    color: #111;
-    text-transform: uppercase;
-    font-size: 0.75rem;
-    line-height: 14px;
-    color: #fff;
-    padding: 0.25rem;
-    display: inline-block;
+.controls-container {
+    margin: auto;
+    width: 100%;
+    padding-bottom: 30px;
 }
 
-.prio-highest {
-    background-color: #ff0000;
+.pos-btn {
+    float: left;
 }
 
-.prio-higher {
-    background-color: #ff2200;
-}
-
-.prio-high {
-    background-color: #ff6600;
-}
-
-.prio-info {
-    background-color: #0066ff;
+.area-dd {
+    float: right;
 }

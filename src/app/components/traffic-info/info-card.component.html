@@ -1,0 +1,23 @@
+<div class="msg-ctn" *ngIf="message" (click)="onClickMessage(message)">
+    <div class={{getStyleClassForPriority(message.priority)}}>
+        {{message.priorityName}}
+    </div>
+    <div class="category">
+        {{message.categoryName}}
+    </div>
+    <div>
+        <b>{{message.title}} ({{message.subCategory}})</b>
+    </div>
+    <div *ngIf="message.distance">
+        Avstånd: {{message.distance}} km
+    </div>
+    <div>
+        {{message.createdDate | date:'medium'}}
+    </div>
+    <div>
+        {{message.exactLocation}}
+    </div>
+    <div>
+        {{message.description}}
+    </div>
+</div>

@@ -1,7 +1,8 @@
 <p-sidebar *ngIf="location" [(visible)]="isVisible" position="right" styleClass="sr-sidebar" [showCloseIcon]="false">
 
-    <div>
+    <div class="details-header-text">
         <i (click)="close()" class="pi pi-chevron-left close-button clickable"></i>
+        {{title}}
     </div>
     <hr>
     <div *ngIf="useMap">

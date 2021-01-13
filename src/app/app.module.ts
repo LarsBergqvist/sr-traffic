@@ -30,6 +30,7 @@ import { AppConfigService } from './services/app-config.service';
 import { TrafficMessagesComponent } from './components/traffic-info/traffic-messages.component';
 import { MapComponent } from './components/map/map.component';
 import { GoogleMapsService } from './services/googlemaps.service';
+import { InfoCardComponent } from './components/traffic-info/info-card.component';
 registerLocaleData(locale);
 
 export function appConfigInit(configService: AppConfigService, googleMapService: GoogleMapsService, logging: LoggingService) {
@@ -48,7 +49,7 @@ export function appConfigInit(configService: AppConfigService, googleMapService:
 }
 
 @NgModule({
-    declarations: [AppComponent, TrafficMessagesComponent, TranslatePipe, MapComponent],
+    declarations: [AppComponent, TrafficMessagesComponent, TranslatePipe, MapComponent, InfoCardComponent],
     imports: [
         BrowserModule,
         AppRoutingModule,

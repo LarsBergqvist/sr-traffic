@@ -1,7 +1,7 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
-import { UpdateMapMessage } from 'src/app/messages/update-map.message';
+import { ShowMapMessage } from 'src/app/messages/show-map.message';
 import { MessageBrokerService } from 'src/app/services/message-broker.service';
 import { Location } from '../../models/location';
 
@@ -13,6 +13,7 @@ declare var google: any;
 })
 export class MapComponent implements OnInit, OnDestroy {
     private unsubscribe$ = new Subject();
+    title: string;
     isVisible = false;
     location: Location;
     options: any;
@@ -56,14 +57,15 @@ export class MapComponent implements OnInit, OnDestroy {
     handleMapClick(event) {}
 
     ngOnInit() {
-        const messages = this.broker.getMessage();
-        messages
+        this.broker
+            .getMessage()
             .pipe(
                 takeUntil(this.unsubscribe$),
-                filter((message) => message instanceof UpdateMapMessage)
+                filter((message) => message instanceof ShowMapMessage)
             )
-            .subscribe((message: UpdateMapMessage) => {
+            .subscribe((message: ShowMapMessage) => {
                 this.location = message.location;
+                this.title = message.title;
                 this.updateLocation(message.location);
                 this.isVisible = true;
             });
