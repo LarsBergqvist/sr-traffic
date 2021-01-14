@@ -8,16 +8,6 @@
                 placeholder="Välj område"></p-dropdown>
         </span>
     </div>
-
-    <!--div>
-        Longitude: {{long}}
-    </div>
-    <div>
-        Latitude: {{lat}}
-    </div>
-    <div *ngIf="trafficArea">
-        Closest traffic area: {{trafficArea.name}}
-    </div-->
     <div *ngIf="messages">
         <div *ngFor="let m of messages; index as i;">
             <app-info-card [message]=m [zoom]="trafficArea.zoom"></app-info-card>

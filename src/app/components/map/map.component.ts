@@ -23,9 +23,7 @@ export class MapComponent implements OnInit, OnDestroy {
     readonly defaultZoom = 15;
 
     updateLocation(loc: Location) {
-        console.log('loc: ' + loc.latitude);
         if (loc && this.map) {
-            console.log('loc: ' + loc.latitude);
             // Work with the google map object directly as modifying gmap's options
             // will not update the map
             this.map.setZoom(loc.zoom);
@@ -49,7 +47,7 @@ export class MapComponent implements OnInit, OnDestroy {
         if (event.map) {
             this.map = event.map;
             if (this.location) {
-                this.updateLocation(this.location);
+                setTimeout(() => this.updateLocation(this.location), 200);
             }
         }
     }
