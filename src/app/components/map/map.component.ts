@@ -1,85 +1,76 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { Subject } from 'rxjs';
-import { filter, takeUntil } from 'rxjs/operators';
-import { ShowMapMessage } from 'src/app/messages/show-map.message';
-import { MessageBrokerService } from 'src/app/services/message-broker.service';
-import { Location } from '../../models/location';
-
-declare var google: any;
+import { Component, Input } from '@angular/core';
+import Map from 'ol/Map';
+import View from 'ol/View';
+import Feature from 'ol/Feature';
+import Point from 'ol/geom/Point';
+import { fromLonLat } from 'ol/proj.js';
+import { Tile as TileLayer, Vector as VectorLayer } from 'ol/layer';
+import VectorSource from 'ol/source/Vector';
+import { Icon, Style } from 'ol/style';
+import OSM from 'ol/source/OSM';
+import { Location } from 'src/app/models/location';
 
 @Component({
     selector: 'app-map',
-    templateUrl: './map.component.html'
+    templateUrl: './map.component.html',
+    styleUrls: ['./map.component.scss']
 })
-export class MapComponent implements OnInit, OnDestroy {
-    private unsubscribe$ = new Subject();
-    title: string;
-    isVisible = false;
-    location: Location;
-    options: any;
-    overlays: any;
-    map: any;
-    readonly defaultPosition = { lat: 51.477847, lng: 0.0 };
-    readonly defaultZoom = 15;
+export class MapComponent {
+    map: Map;
+    marker: Feature;
+    defaultZoom = 13;
 
-    updateLocation(loc: Location) {
-        if (loc && this.map) {
-            // Work with the google map object directly as modifying gmap's options
-            // will not update the map
-            this.map.setZoom(loc.zoom);
-            this.map.setCenter({ lat: loc.latitude, lng: loc.longitude });
-            this.overlays = [
-                new google.maps.Marker({
-                    position: { lat: loc.latitude, lng: loc.longitude },
-                    title: loc.name
-                })
-            ];
-        }
-    }
-
-    close() {
-        this.isVisible = false;
-    }
-
-    constructor(private readonly broker: MessageBrokerService) {}
-
-    onMapReady(event: any) {
-        if (event.map) {
-            this.map = event.map;
-            if (this.location) {
-                setTimeout(() => this.updateLocation(this.location), 200);
+    @Input('location') set setLocation(loc: Location) {
+        if (loc) {
+            if (!this.map) {
+                this.initilizeMap();
             }
+            const view = this.map.getView();
+            view.setCenter(fromLonLat([loc.longitude, loc.latitude]));
+            view.setZoom(this.defaultZoom);
+            this.marker.setGeometry(new Point(fromLonLat([loc.longitude, loc.latitude])));
         }
     }
 
-    handleMapClick(event) {}
+    initilizeMap(): void {
+        let vectorSource: VectorSource;
+        let vectorLayer: VectorLayer;
 
-    ngOnInit() {
-        this.broker
-            .getMessage()
-            .pipe(
-                takeUntil(this.unsubscribe$),
-                filter((message) => message instanceof ShowMapMessage)
-            )
-            .subscribe((message: ShowMapMessage) => {
-                this.location = message.location;
-                this.title = message.title;
-                this.updateLocation(message.location);
-                this.isVisible = true;
-            });
+        this.marker = new Feature({
+            geometry: new Point(fromLonLat([0, 0]))
+        });
 
-        this.options = {
-            center: this.defaultPosition,
-            zoom: this.defaultZoom
-        };
-    }
+        this.marker.setStyle(
+            new Style({
+                image: new Icon({
+                    color: '#8959A8',
+                    crossOrigin: 'anonymous',
+                    src: 'assets/clipart_med.png',
+                    imgSize: [60, 60],
+                    anchor: [0.5, 1]
+                })
+            })
+        );
+        vectorSource = new VectorSource({
+            features: [this.marker]
+        });
 
-    ngOnDestroy(): void {
-        this.unsubscribe$.next();
-        this.unsubscribe$.complete();
-    }
+        vectorLayer = new VectorLayer({
+            source: vectorSource
+        });
 
-    get useMap(): boolean {
-        return true;
+        this.map = new Map({
+            target: 'map',
+            layers: [
+                new TileLayer({
+                    source: new OSM()
+                }),
+                vectorLayer
+            ],
+            view: new View({
+                center: fromLonLat([0, 0]),
+                zoom: this.defaultZoom
+            })
+        });
     }
 }

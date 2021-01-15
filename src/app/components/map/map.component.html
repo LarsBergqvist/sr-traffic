@@ -1,13 +1,1 @@
-<p-sidebar *ngIf="location" [(visible)]="isVisible" position="right" styleClass="sr-sidebar" [showCloseIcon]="false">
-
-    <div class="details-header-text">
-        <i (click)="close()" class="pi pi-chevron-left close-button clickable"></i>
-        {{title}}
-    </div>
-    <hr>
-    <div *ngIf="useMap">
-        <p-gmap *ngIf="options.center" [options]="options" [overlays]="overlays"
-            [style]="{'width':'100%','height':'90vh'}" (onMapReady)="onMapReady($event)"
-            (onMapClick)="handleMapClick($event)"></p-gmap>
-    </div>
-</p-sidebar>
+<div id="map" class="map"></div>

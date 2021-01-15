@@ -3,10 +3,10 @@ import { LazyLoadEvent, SelectItem } from 'primeng/api';
 import { ErrorOccurredMessage } from 'src/app/messages/error-occurred.message';
 import { Location } from 'src/app/models/location';
 import { TrafficArea } from 'src/app/models/traffic-area';
-import { GoogleMapsService } from 'src/app/services/googlemaps.service';
 import { MessageBrokerService } from 'src/app/services/message-broker.service';
 import { TrafficService } from 'src/app/services/traffic.service';
 import { convertFromJSONstring } from 'src/app/utils/date-helper';
+import { calcDistanceKm } from 'src/app/utils/distance-helper';
 import { TrafficMessageViewModel } from 'src/app/view-models/traffic-message-vm';
 
 @Component({
@@ -47,11 +47,7 @@ export class TrafficMessagesComponent implements OnInit {
         5: 'Mindre störning'
     };
 
-    constructor(
-        private readonly broker: MessageBrokerService,
-        private readonly service: TrafficService,
-        private readonly googleMapsService: GoogleMapsService
-    ) {}
+    constructor(private readonly broker: MessageBrokerService, private readonly service: TrafficService) {}
 
     async ngOnInit() {
         const res = await this.service.fetchAllTrafficAreas();
@@ -115,7 +111,7 @@ export class TrafficMessagesComponent implements OnInit {
 
                 if (this.long && this.lat && e.latitude && e.longitude) {
                     try {
-                        m.distance = this.googleMapsService.calcDistanceKm(this.lat, this.long, e.latitude, e.longitude);
+                        m.distance = calcDistanceKm(this.lat, this.long, e.latitude, e.longitude);
                     } catch (e) {
                         console.log(e);
                     }
