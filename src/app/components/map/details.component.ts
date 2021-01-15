@@ -13,6 +13,8 @@ import { Location } from '../../models/location';
 export class DetailsComponent implements OnInit, OnDestroy {
     private unsubscribe$ = new Subject();
     title: string;
+    exactLocation: string;
+    details: string;
     isVisible = false;
     location: Location;
 
@@ -32,6 +34,8 @@ export class DetailsComponent implements OnInit, OnDestroy {
             .subscribe((message: ShowMapMessage) => {
                 this.location = message.location;
                 this.title = message.title;
+                this.details = message.details;
+                this.exactLocation = message.exactLocation;
                 this.isVisible = true;
             });
     }

@@ -21,7 +21,11 @@ export class TrafficService extends SRBaseService {
         return this.http.get<TrafficAreaResult>(`${url}`).toPromise();
     }
 
-    async fetchTrafficMessagesForAreaFor(trafficAreaName: string, page: number, size: number): Promise<TrafficMessagesResult> {
+    async fetchTrafficMessagesForAreaFor(
+        trafficAreaName: string,
+        page: number,
+        size: number
+    ): Promise<TrafficMessagesResult> {
         let url = `${this.BaseUrl}traffic/messages/?trafficareaname=${trafficAreaName}&page=${page}&size=${size}&${this.FormatParam}`;
         return this.http.get<TrafficMessagesResult>(`${url}`).toPromise();
     }

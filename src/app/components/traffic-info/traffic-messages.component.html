@@ -1,11 +1,11 @@
 <div>
     <div class="controls-container">
         <span class="pos-btn">
-            <p-button (click)="onClick()">Hämta position</p-button>
+            <p-button [disabled]="isLoading" (click)="onFetchPosition()">Hämta position</p-button>
         </span>
         <span class="area-dd">
-            <p-dropdown [(ngModel)]="selectedArea" [options]="areaOptions" (onChange)="onAreaChanged($event)"
-                placeholder="Välj område"></p-dropdown>
+            <p-dropdown [disabled]="isLoading" [(ngModel)]="selectedArea" [options]="areaOptions"
+                (onChange)="onAreaChanged($event)" placeholder="Välj område"></p-dropdown>
         </span>
     </div>
     <div *ngIf="messages">

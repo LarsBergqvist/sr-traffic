@@ -12,8 +12,6 @@ import { environment } from '../environments/environment';
 import { ToastModule } from 'primeng/toast';
 import { ButtonModule } from 'primeng/button';
 
-import { registerLocaleData } from '@angular/common';
-import locale from '@angular/common/locales/sv';
 import { MessageService } from 'primeng/api';
 import { TranslatePipe } from './translations/translate.pipe';
 import { HttpInterceptorService } from './services/http-interceptor.service';
@@ -26,10 +24,16 @@ import { MapComponent } from './components/map/map.component';
 import { InfoCardComponent } from './components/traffic-info/info-card.component';
 import { DetailsComponent } from './components/map/details.component';
 import { FormsModule } from '@angular/forms';
-registerLocaleData(locale);
 
 @NgModule({
-    declarations: [MapComponent, AppComponent, TrafficMessagesComponent, TranslatePipe, DetailsComponent, InfoCardComponent],
+    declarations: [
+        MapComponent,
+        AppComponent,
+        TrafficMessagesComponent,
+        TranslatePipe,
+        DetailsComponent,
+        InfoCardComponent
+    ],
     imports: [
         BrowserModule,
         AppRoutingModule,
@@ -46,7 +50,6 @@ registerLocaleData(locale);
         })
     ],
     providers: [
-        { provide: LOCALE_ID, useValue: 'sv' },
         MessageService,
         LoggingService,
         {

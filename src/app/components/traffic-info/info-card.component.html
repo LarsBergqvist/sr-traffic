@@ -15,7 +15,7 @@
                 Avstånd: <span class="dist-info">{{message.distance}} km</span>
             </div>
             <div class="date-info">
-                {{message.createdDate | date:'medium'}}
+                {{message.createdDate | date:'d MMM HH:mm'}}
             </div>
         </div>
         <div class="p-col-4" (click)="onClickMessage(message)">

@@ -4,6 +4,14 @@
         <i (click)="close()" class="pi pi-chevron-left close-button clickable"></i>
         {{title}}
     </div>
+    <div>
+        <div>
+            <b>{{exactLocation}}</b>
+        </div>
+        <div>
+            {{details}}
+        </div>
+    </div>
     <hr>
     <app-map [location]="location"></app-map>
 </p-sidebar>

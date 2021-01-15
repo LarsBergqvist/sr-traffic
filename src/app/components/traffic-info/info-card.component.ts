@@ -24,7 +24,14 @@ export class InfoCardComponent implements OnInit {
             name: message.title,
             zoom: this.zoom
         };
-        this.broker.sendMessage(new ShowMapMessage(location, `${message.title} (${message.subCategory})`));
+        this.broker.sendMessage(
+            new ShowMapMessage(
+                location,
+                `${message.title} (${message.subCategory})`,
+                message.description,
+                message.exactLocation
+            )
+        );
     }
 
     getStyleClassForPriority(prio: number): string {
