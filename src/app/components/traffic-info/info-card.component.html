@@ -9,9 +9,9 @@
         <b>{{message.title}} ({{message.subCategory}})</b>
     </div>
     <div *ngIf="message.distance">
-        Avstånd: {{message.distance}} km
+        Avstånd: <span class="dist-info">{{message.distance}} km</span>
     </div>
-    <div>
+    <div class="date-info">
         {{message.createdDate | date:'medium'}}
     </div>
     <div>

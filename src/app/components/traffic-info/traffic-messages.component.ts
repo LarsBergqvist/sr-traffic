@@ -3,12 +3,11 @@ import { LazyLoadEvent, SelectItem } from 'primeng/api';
 import { ErrorOccurredMessage } from 'src/app/messages/error-occurred.message';
 import { Location } from 'src/app/models/location';
 import { TrafficArea } from 'src/app/models/traffic-area';
+import { GoogleMapsService } from 'src/app/services/googlemaps.service';
 import { MessageBrokerService } from 'src/app/services/message-broker.service';
 import { TrafficService } from 'src/app/services/traffic.service';
 import { convertFromJSONstring } from 'src/app/utils/date-helper';
 import { TrafficMessageViewModel } from 'src/app/view-models/traffic-message-vm';
-
-declare var google: any;
 
 @Component({
     selector: 'app-messages',
@@ -48,7 +47,11 @@ export class TrafficMessagesComponent implements OnInit {
         5: 'Mindre störning'
     };
 
-    constructor(private readonly broker: MessageBrokerService, private readonly service: TrafficService) {}
+    constructor(
+        private readonly broker: MessageBrokerService,
+        private readonly service: TrafficService,
+        private readonly googleMapsService: GoogleMapsService
+    ) {}
 
     async ngOnInit() {
         const res = await this.service.fetchAllTrafficAreas();
@@ -62,13 +65,6 @@ export class TrafficMessagesComponent implements OnInit {
         this.areaOptions.push(...categories);
     }
 
-    calcDistanceKm(fromLat, fromLng, toLat, toLng): number {
-        var dist = google.maps.geometry.spherical.computeDistanceBetween(
-            new google.maps.LatLng(fromLat, fromLng),
-            new google.maps.LatLng(toLat, toLng)
-        );
-        return Math.round(dist / 1000);
-    }
     getZoomForArea(unitid: number) {
         const area = this.allTrafficAreas.find((a) => a.trafficdepartmentunitid === unitid);
         return area.zoom;
@@ -119,7 +115,7 @@ export class TrafficMessagesComponent implements OnInit {
 
                 if (this.long && this.lat && e.latitude && e.longitude) {
                     try {
-                        m.distance = this.calcDistanceKm(this.lat, this.long, e.latitude, e.longitude);
+                        m.distance = this.googleMapsService.calcDistanceKm(this.lat, this.long, e.latitude, e.longitude);
                     } catch (e) {
                         console.log(e);
                     }
