@@ -5,7 +5,7 @@ import Feature from 'ol/Feature';
 import Point from 'ol/geom/Point';
 import { fromLonLat } from 'ol/proj.js';
 import { Tile as TileLayer, Vector as VectorLayer } from 'ol/layer';
-import VectorSource from 'ol/source/Vector';
+import Vector from 'ol/source/Vector';
 import { Icon, Style } from 'ol/style';
 import OSM from 'ol/source/OSM';
 import { Location } from 'src/app/models/location';
@@ -33,9 +33,6 @@ export class MapComponent {
     }
 
     initilizeMap(): void {
-        let vectorSource: VectorSource;
-        let vectorLayer: VectorLayer;
-
         this.marker = new Feature({
             geometry: new Point(fromLonLat([0, 0]))
         });
@@ -43,7 +40,6 @@ export class MapComponent {
         this.marker.setStyle(
             new Style({
                 image: new Icon({
-                    color: '#8959A8',
                     crossOrigin: 'anonymous',
                     src: 'assets/clipart_med.png',
                     imgSize: [60, 60],
@@ -51,12 +47,11 @@ export class MapComponent {
                 })
             })
         );
-        vectorSource = new VectorSource({
-            features: [this.marker]
-        });
 
-        vectorLayer = new VectorLayer({
-            source: vectorSource
+        let vectorLayer = new VectorLayer({
+            source: new Vector({
+                features: [this.marker]
+            })
         });
 
         this.map = new Map({

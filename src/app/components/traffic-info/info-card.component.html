@@ -1,18 +1,30 @@
-<div class="msg-ctn" *ngIf="message" (click)="onClickMessage(message)">
+<div class="msg-ctn" *ngIf="message">
     <div class={{getStyleClassForPriority(message.priority)}}>
         {{message.priorityName}}
     </div>
     <div class="category">
         {{message.categoryName}}
     </div>
-    <div>
-        <b>{{message.title}} ({{message.subCategory}})</b>
-    </div>
-    <div *ngIf="message.distance">
-        Avstånd: <span class="dist-info">{{message.distance}} km</span>
-    </div>
-    <div class="date-info">
-        {{message.createdDate | date:'medium'}}
+
+    <div class="p-grid">
+        <div class="p-col-8">
+            <div>
+                <b>{{message.title}} ({{message.subCategory}})</b>
+            </div>
+            <div *ngIf="message.distance">
+                Avstånd: <span class="dist-info">{{message.distance}} km</span>
+            </div>
+            <div class="date-info">
+                {{message.createdDate | date:'medium'}}
+            </div>
+        </div>
+        <div class="p-col-4" (click)="onClickMessage(message)">
+            <div class="open-button">
+                <span>Karta</span>
+                <i class="pi pi-chevron-right"></i>
+
+            </div>
+        </div>
     </div>
     <div>
         {{message.exactLocation}}
