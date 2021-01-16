@@ -8,7 +8,7 @@ import { Tile as TileLayer, Vector as VectorLayer } from 'ol/layer';
 import Vector from 'ol/source/Vector';
 import { Icon, Style } from 'ol/style';
 import OSM from 'ol/source/OSM';
-import { Location } from 'src/app/models/location';
+import { GeoPosition } from 'src/app/models/geo-position';
 
 @Component({
     selector: 'app-map',
@@ -20,15 +20,15 @@ export class MapComponent {
     marker: Feature;
     defaultZoom = 13;
 
-    @Input('location') set setLocation(loc: Location) {
-        if (loc) {
+    @Input('markerPos') set setMarkerPos(pos: GeoPosition) {
+        if (pos) {
             if (!this.map) {
                 this.initilizeMap();
             }
             const view = this.map.getView();
-            view.setCenter(fromLonLat([loc.longitude, loc.latitude]));
+            view.setCenter(fromLonLat([pos.lng, pos.lat]));
             view.setZoom(this.defaultZoom);
-            this.marker.setGeometry(new Point(fromLonLat([loc.longitude, loc.latitude])));
+            this.marker.setGeometry(new Point(fromLonLat([pos.lng, pos.lat])));
         }
     }
 

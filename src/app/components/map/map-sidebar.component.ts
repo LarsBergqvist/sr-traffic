@@ -2,21 +2,20 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
 import { ShowMapMessage } from 'src/app/messages/show-map.message';
+import { GeoPosition } from 'src/app/models/geo-position';
 import { MessageBrokerService } from 'src/app/services/message-broker.service';
-import { Location } from '../../models/location';
 
 @Component({
-    selector: 'app-details',
-    templateUrl: './details.component.html',
-    styleUrls: ['./details.component.scss']
+    selector: 'app-map-sidebar',
+    templateUrl: './map-sidebar.component.html'
 })
-export class DetailsComponent implements OnInit, OnDestroy {
+export class MapSidebarComponent implements OnInit, OnDestroy {
     private unsubscribe$ = new Subject();
     title: string;
-    exactLocation: string;
+    positionInfo: string;
     details: string;
     isVisible = false;
-    location: Location;
+    markerPos: GeoPosition;
 
     close() {
         this.isVisible = false;
@@ -32,10 +31,10 @@ export class DetailsComponent implements OnInit, OnDestroy {
                 filter((message) => message instanceof ShowMapMessage)
             )
             .subscribe((message: ShowMapMessage) => {
-                this.location = message.location;
+                this.markerPos = message.position;
                 this.title = message.title;
                 this.details = message.details;
-                this.exactLocation = message.exactLocation;
+                this.positionInfo = message.positionInfo;
                 this.isVisible = true;
             });
     }

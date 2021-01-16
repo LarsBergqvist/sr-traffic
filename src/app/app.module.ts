@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { LOCALE_ID, NgModule } from '@angular/core';
+import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -22,8 +22,8 @@ import { DropdownModule } from 'primeng/dropdown';
 import { TrafficMessagesComponent } from './components/traffic-info/traffic-messages.component';
 import { MapComponent } from './components/map/map.component';
 import { InfoCardComponent } from './components/traffic-info/info-card.component';
-import { DetailsComponent } from './components/map/details.component';
 import { FormsModule } from '@angular/forms';
+import { MapSidebarComponent } from './components/map/map-sidebar.component';
 
 @NgModule({
     declarations: [
@@ -31,7 +31,7 @@ import { FormsModule } from '@angular/forms';
         AppComponent,
         TrafficMessagesComponent,
         TranslatePipe,
-        DetailsComponent,
+        MapSidebarComponent,
         InfoCardComponent
     ],
     imports: [

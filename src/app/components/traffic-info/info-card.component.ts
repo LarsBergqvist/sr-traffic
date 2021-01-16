@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ShowMapMessage } from 'src/app/messages/show-map.message';
-import { Location } from 'src/app/models/location';
+import { GeoPosition } from 'src/app/models/geo-position';
 import { MessageBrokerService } from 'src/app/services/message-broker.service';
 import { TrafficMessageViewModel } from 'src/app/view-models/traffic-message-vm';
 
@@ -18,15 +18,13 @@ export class InfoCardComponent implements OnInit {
     ngOnInit(): void {}
 
     onClickMessage(message: TrafficMessageViewModel) {
-        const location: Location = {
-            latitude: message.latitude,
-            longitude: message.longitude,
-            name: message.title,
-            zoom: this.zoom
+        const pos: GeoPosition = {
+            lat: message.latitude,
+            lng: message.longitude
         };
         this.broker.sendMessage(
             new ShowMapMessage(
-                location,
+                pos,
                 `${message.title} (${message.subCategory})`,
                 message.description,
                 message.exactLocation

@@ -1,4 +1,4 @@
-<p-sidebar *ngIf="location" [(visible)]="isVisible" position="right" styleClass="sr-sidebar" [showCloseIcon]="false">
+<p-sidebar *ngIf="markerPos" [(visible)]="isVisible" position="right" styleClass="sr-sidebar" [showCloseIcon]="false">
 
     <div class="details-header-text">
         <i (click)="close()" class="pi pi-chevron-left close-button clickable"></i>
@@ -6,12 +6,12 @@
     </div>
     <div>
         <div>
-            <b>{{exactLocation}}</b>
+            <b>{{positionInfo}}</b>
         </div>
         <div>
             {{details}}
         </div>
     </div>
     <hr>
-    <app-map [location]="location"></app-map>
+    <app-map [markerPos]="markerPos"></app-map>
 </p-sidebar>

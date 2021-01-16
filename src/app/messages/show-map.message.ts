@@ -1,17 +1,17 @@
-import { Location } from '../models/location';
+import { GeoPosition } from '../models/geo-position';
 import { Message } from './message';
 
 export class ShowMapMessage extends Message {
-    location: Location;
+    position: GeoPosition;
     title: string;
     details: string;
-    exactLocation: string;
-    constructor(location: Location, title: string, details?: string, exactLocation?: string) {
+    positionInfo: string;
+    constructor(position: GeoPosition, title: string, details?: string, positionInfo?: string) {
         super();
-        this.location = location;
+        this.position = position;
         this.title = title;
         this.details = details;
-        this.exactLocation = exactLocation;
+        this.positionInfo = positionInfo;
     }
 
     get Type(): string {
