@@ -11,3 +11,14 @@
 .area-dd {
     padding-left: 10px;
 }
+
+:host ::ng-deep {
+    .sr-button {
+        border-radius: 10px;
+    }
+}
+
+.search-ctn,
+.showmap-ctn {
+    margin-top: 10px;
+}

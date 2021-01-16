@@ -2,16 +2,14 @@ import { GeoPosition } from '../models/geo-position';
 import { Message } from './message';
 
 export class ShowMapMessage extends Message {
-    position: GeoPosition;
+    positions: GeoPosition[];
     title: string;
     details: string;
-    positionInfo: string;
-    constructor(position: GeoPosition, title: string, details?: string, positionInfo?: string) {
+    constructor(positions: GeoPosition[], title: string, details?: string) {
         super();
-        this.position = position;
+        this.positions = positions;
         this.title = title;
         this.details = details;
-        this.positionInfo = positionInfo;
     }
 
     get Type(): string {

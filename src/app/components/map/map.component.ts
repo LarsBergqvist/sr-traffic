@@ -17,40 +17,57 @@ import { GeoPosition } from 'src/app/models/geo-position';
 })
 export class MapComponent {
     map: Map;
-    marker: Feature;
     defaultZoom = 13;
+    markers: Feature[] = [];
+    private readonly maxNumMarkers = 200;
 
-    @Input('markerPos') set setMarkerPos(pos: GeoPosition) {
-        if (pos) {
+    @Input('markerPos') set setMarkerPos(positions: GeoPosition[]) {
+        if (positions) {
             if (!this.map) {
                 this.initilizeMap();
             }
+            for (let i = 0; i < this.maxNumMarkers; i++) {
+                this.markers[i].setGeometry(null);
+            }
             const view = this.map.getView();
-            view.setCenter(fromLonLat([pos.lng, pos.lat]));
-            view.setZoom(this.defaultZoom);
-            this.marker.setGeometry(new Point(fromLonLat([pos.lng, pos.lat])));
+            if (positions.length > 1) {
+                view.setZoom(6);
+            } else {
+                view.setZoom(this.defaultZoom);
+            }
+            for (let i = 0; i < Math.min(positions.length, this.maxNumMarkers); i++) {
+                const pos = positions[i];
+                this.markers[i].setGeometry(new Point(fromLonLat([pos.lng, pos.lat])));
+                if (i === 0) {
+                    view.setCenter(fromLonLat([pos.lng, pos.lat]));
+                }
+            }
         }
     }
 
     initilizeMap(): void {
-        this.marker = new Feature({
-            geometry: new Point(fromLonLat([0, 0]))
-        });
-
-        this.marker.setStyle(
-            new Style({
-                image: new Icon({
-                    crossOrigin: 'anonymous',
-                    src: 'assets/clipart_med.png',
-                    imgSize: [60, 60],
-                    anchor: [0.5, 1]
+        this.markers = [];
+        for (let i = 0; i < this.maxNumMarkers; i++) {
+            let marker = new Feature({});
+            marker.setStyle(
+                new Style({
+                    image: new Icon({
+                        color: '#8959A8',
+                        crossOrigin: 'anonymous',
+                        src: 'assets/clipart_med.png',
+                        imgSize: [60, 60],
+                        anchor: [0.5, 1],
+                        opacity: 0.5,
+                        scale: 0.5
+                    })
                 })
-            })
-        );
+            );
+            this.markers.push(marker);
+        }
 
         let vectorLayer = new VectorLayer({
             source: new Vector({
-                features: [this.marker]
+                features: this.markers
             })
         });
 

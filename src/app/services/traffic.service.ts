@@ -43,6 +43,11 @@ export class TrafficService extends SRBaseService {
         return res.area;
     }
 
+    async fetchAllTrafficMessages(position: GeoPosition): Promise<TrafficMessageViewModel[]> {
+        let url = `${this.BaseUrl}traffic/messages/?page=${1}&size=${200}&${this.FormatParam}`;
+        return await this.fetchMessages(url, position);
+    }
+
     async fetchAllTrafficMessagesForArea(
         trafficAreaName: string,
         position: GeoPosition
@@ -50,6 +55,11 @@ export class TrafficService extends SRBaseService {
         let url = `${this.BaseUrl}traffic/messages/?trafficareaname=${trafficAreaName}&page=${1}&size=${100}&${
             this.FormatParam
         }`;
+
+        return await this.fetchMessages(url, position);
+    }
+
+    private async fetchMessages(url: string, position: GeoPosition): Promise<TrafficMessageViewModel[]> {
         const res = await this.http.get<TrafficMessagesResult>(`${url}`).toPromise();
         const messages: TrafficMessageViewModel[] = [];
         res.messages.forEach((e) => {

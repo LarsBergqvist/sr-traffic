@@ -12,10 +12,10 @@ import { MessageBrokerService } from 'src/app/services/message-broker.service';
 export class MapSidebarComponent implements OnInit, OnDestroy {
     private unsubscribe$ = new Subject();
     title: string;
-    positionInfo: string;
     details: string;
     isVisible = false;
-    markerPos: GeoPosition;
+    markerPos: GeoPosition[];
+    info: string;
 
     close() {
         this.isVisible = false;
@@ -31,10 +31,14 @@ export class MapSidebarComponent implements OnInit, OnDestroy {
                 filter((message) => message instanceof ShowMapMessage)
             )
             .subscribe((message: ShowMapMessage) => {
-                this.markerPos = message.position;
+                this.markerPos = message.positions;
                 this.title = message.title;
                 this.details = message.details;
-                this.positionInfo = message.positionInfo;
+                if (message.positions.length == 1) {
+                    this.info = message.positions[0].info;
+                } else {
+                    this.info = '';
+                }
                 this.isVisible = true;
             });
     }

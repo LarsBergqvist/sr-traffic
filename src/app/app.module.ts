@@ -18,6 +18,7 @@ import { HttpInterceptorService } from './services/http-interceptor.service';
 import { LoggingService } from './services/logging.service';
 import { MessageBrokerService } from './services/message-broker.service';
 import { DropdownModule } from 'primeng/dropdown';
+import { InputTextModule } from 'primeng/inputtext';
 
 import { TrafficMessagesComponent } from './components/traffic-info/traffic-messages.component';
 import { MapComponent } from './components/map/map.component';
@@ -45,6 +46,7 @@ import { MapSidebarComponent } from './components/map/map-sidebar.component';
         ButtonModule,
         DropdownModule,
         FormsModule,
+        InputTextModule,
         ServiceWorkerModule.register('ngsw-worker.js', {
             enabled: environment.production
         })

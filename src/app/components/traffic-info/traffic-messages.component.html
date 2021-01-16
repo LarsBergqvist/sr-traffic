@@ -1,16 +1,28 @@
 <div>
     <div class="controls-container">
         <span class="pos-btn">
-            <p-button [disabled]="isLoading" (click)="onFetchPosition()">Hämta position</p-button>
+            <p-button styleClass="sr-button" [disabled]="isLoading" (click)="onFetchPosition()">Hämta position
+            </p-button>
         </span>
         <span class="area-dd">
             <p-dropdown [disabled]="isLoading" [(ngModel)]="selectedArea" [options]="areaOptions"
                 (onChange)="onAreaChanged($event)" placeholder="Välj område"></p-dropdown>
         </span>
+        <div class="showmap-ctn">
+            <p-button styleClass="sr-button" [disabled]="isLoading || !(messages && messages.length > 0)"
+                (click)="onShowAllPositionsOnMap()">Visa
+                alla på kartan</p-button>
+        </div>
+        <div class="search-ctn">
+            <div class="p-input-icon-left">
+                <i class="pi pi-search"></i>
+                <input type="text" pInputText placeholder="Sök" [(ngModel)]="keyword" />
+            </div>
+        </div>
     </div>
     <div *ngIf="messages">
         <div *ngFor="let m of messages; index as i;">
-            <app-info-card [message]=m [zoom]="trafficArea.zoom"></app-info-card>
+            <app-info-card *ngIf="matchesKeyword(m)" [message]=m></app-info-card>
         </div>
     </div>
 </div>
