@@ -19,7 +19,7 @@ import { LoggingService } from './services/logging.service';
 import { MessageBrokerService } from './services/message-broker.service';
 import { DropdownModule } from 'primeng/dropdown';
 import { InputTextModule } from 'primeng/inputtext';
-
+import { CheckboxModule } from 'primeng/checkbox';
 import { TrafficMessagesComponent } from './components/traffic-info/traffic-messages.component';
 import { MapComponent } from './components/map/map.component';
 import { InfoCardComponent } from './components/traffic-info/info-card.component';
@@ -47,6 +47,7 @@ import { MapSidebarComponent } from './components/map/map-sidebar.component';
         DropdownModule,
         FormsModule,
         InputTextModule,
+        CheckboxModule,
         ServiceWorkerModule.register('ngsw-worker.js', {
             enabled: environment.production
         })

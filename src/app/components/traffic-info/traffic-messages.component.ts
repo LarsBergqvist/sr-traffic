@@ -61,7 +61,7 @@ export class TrafficMessagesComponent implements OnInit {
                 const pos: GeoPosition = {
                     lat: m.latitude,
                     lng: m.longitude,
-                    info: m.exactLocation
+                    info: `${m.priorityName}: ${m.title}`
                 };
                 positions.push(pos);
             });
