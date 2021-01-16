@@ -9,7 +9,7 @@
                 (onChange)="onAreaChanged($event)" placeholder="Välj område"></p-dropdown>
         </span>
         <div class="showmap-ctn">
-            <p-button styleClass="sr-button" [disabled]="isLoading || !(messages && messages.length > 0)"
+            <p-button styleClass="sr-button" [disabled]="isLoading || !hasMessagesToDisplay()"
                 (click)="onShowAllPositionsOnMap()">Visa
                 alla på kartan</p-button>
         </div>

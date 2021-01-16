@@ -20,7 +20,7 @@ export class InfoCardComponent implements OnInit {
         const pos: GeoPosition = {
             lat: message.latitude,
             lng: message.longitude,
-            info: `${message.priorityName}: ${message.title}`
+            info: `${message.priorityName}: ${message.title} (${message.subCategory})`
         };
         const positions: GeoPosition[] = [];
         positions.push(pos);

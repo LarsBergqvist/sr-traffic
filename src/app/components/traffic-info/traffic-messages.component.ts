@@ -66,12 +66,12 @@ export class TrafficMessagesComponent implements OnInit {
 
         const positions: GeoPosition[] = [];
         this.messages
-            .filter((m) => this.matchesKeyword(m))
+            .filter((m) => this.matchesKeyword(m) && this.matchesFilter(m))
             .forEach((m) => {
                 const pos: GeoPosition = {
                     lat: m.latitude,
                     lng: m.longitude,
-                    info: `${m.priorityName}: ${m.title}`
+                    info: `${m.priorityName}: ${m.title} (${m.subCategory})`
                 };
                 positions.push(pos);
             });
@@ -169,6 +169,12 @@ export class TrafficMessagesComponent implements OnInit {
             }
         }
         return true;
+    }
+
+    hasMessagesToDisplay() {
+        if (!this.messages || this.messages.length < 1) return false;
+        const messages = this.messages.filter((m) => this.matchesFilter(m) && this.matchesKeyword(m));
+        return messages.length > 0;
     }
 
     private sortMessages() {
