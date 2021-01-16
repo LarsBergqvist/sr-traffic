@@ -25,10 +25,10 @@ export class MapComponent {
 
     @Input('markerPos') set setMarkerPos(positions: GeoPosition[]) {
         this.positions = positions;
-        this.updateMap(this.positions);
+        this.updateMap(this.positions, true);
     }
 
-    updateMap(positions: GeoPosition[]) {
+    updateMap(positions: GeoPosition[], resetZoom: boolean) {
         if (positions) {
             if (!this.map) {
                 this.initilizeMap();
@@ -37,11 +37,14 @@ export class MapComponent {
                 this.markers[i].setGeometry(null);
             }
             const view = this.map.getView();
-            if (positions.length > 1) {
-                view.setZoom(6);
-            } else {
-                view.setZoom(this.defaultZoom);
+            if (resetZoom) {
+                if (positions.length > 1) {
+                    view.setZoom(6);
+                } else {
+                    view.setZoom(this.defaultZoom);
+                }
             }
+
             for (let i = 0; i < Math.min(positions.length, this.maxNumMarkers); i++) {
                 const pos = positions[i];
                 this.markers[i].setGeometry(new Point(fromLonLat([pos.lng, pos.lat])));
@@ -52,7 +55,7 @@ export class MapComponent {
                 }
                 this.markers[i].setStyle(
                     new Style({
-                        text: new Text({ text: label }),
+                        text: new Text({ text: label, font: 'bold 13px sans-serif', offsetY: -30 }),
                         image: new Icon({
                             crossOrigin: 'anonymous',
                             src: 'assets/clipart_med.png',
@@ -63,12 +66,13 @@ export class MapComponent {
                         })
                     })
                 );
-                if (i === 0) {
+                if (i === 0 && resetZoom) {
                     view.setCenter(fromLonLat([pos.lng, pos.lat]));
                 }
             }
         }
     }
+
     initilizeMap(): void {
         this.markers = [];
         for (let i = 0; i < this.maxNumMarkers; i++) {
@@ -98,6 +102,6 @@ export class MapComponent {
     }
 
     onShowLabelsChanged(checked) {
-        this.updateMap(this.positions);
+        this.updateMap(this.positions, false);
     }
 }

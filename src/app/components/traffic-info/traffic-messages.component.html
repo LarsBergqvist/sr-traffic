@@ -19,6 +19,25 @@
                 <input type="text" pInputText placeholder="Sök" [(ngModel)]="keyword" />
             </div>
         </div>
+        <div class="sort-ctn" *ngIf="messages && messages.length > 0">
+            <p-accordion>
+                <p-accordionTab header="Sortering">
+                    <div class="p-field-radiobutton">
+                        <p-radioButton (onClick)="onSortOrderChanged($event)" value="1" [(ngModel)]="sortOrder"
+                            label="Högst prioritet"></p-radioButton>
+                    </div>
+                    <div class="p-field-radiobutton">
+                        <p-radioButton (onClick)="onSortOrderChanged($event)" value="3" [(ngModel)]="sortOrder"
+                            label="Senaste">
+                        </p-radioButton>
+                    </div>
+                    <div class="p-field-radiobutton" *ngIf="position.lat">
+                        <p-radioButton (onClick)="onSortOrderChanged($event)" value="2" [(ngModel)]="sortOrder"
+                            label="Närmast"></p-radioButton>
+                    </div>
+                </p-accordionTab>
+            </p-accordion>
+        </div>
     </div>
     <div *ngIf="messages">
         <div *ngFor="let m of messages; index as i;">

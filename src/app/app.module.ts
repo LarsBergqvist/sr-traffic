@@ -11,7 +11,7 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { ToastModule } from 'primeng/toast';
 import { ButtonModule } from 'primeng/button';
-
+import { AccordionModule } from 'primeng/accordion';
 import { MessageService } from 'primeng/api';
 import { TranslatePipe } from './translations/translate.pipe';
 import { HttpInterceptorService } from './services/http-interceptor.service';
@@ -25,6 +25,7 @@ import { MapComponent } from './components/map/map.component';
 import { InfoCardComponent } from './components/traffic-info/info-card.component';
 import { FormsModule } from '@angular/forms';
 import { MapSidebarComponent } from './components/map/map-sidebar.component';
+import { RadioButtonModule } from 'primeng/radiobutton';
 
 @NgModule({
     declarations: [
@@ -48,6 +49,8 @@ import { MapSidebarComponent } from './components/map/map-sidebar.component';
         FormsModule,
         InputTextModule,
         CheckboxModule,
+        RadioButtonModule,
+        AccordionModule,
         ServiceWorkerModule.register('ngsw-worker.js', {
             enabled: environment.production
         })

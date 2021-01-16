@@ -9,17 +9,25 @@ import { MessageBrokerService } from 'src/app/services/message-broker.service';
 import { TrafficService } from 'src/app/services/traffic.service';
 import { TrafficMessageViewModel } from 'src/app/view-models/traffic-message-vm';
 
+enum SortOrder {
+    highestPriority = '1',
+    leastDistance = '2',
+    latestDate = '3'
+}
+
 @Component({
     selector: 'app-messages',
     templateUrl: './traffic-messages.component.html',
     styleUrls: ['./traffic-messages.component.scss']
 })
 export class TrafficMessagesComponent implements OnInit {
+    sortOrder: SortOrder = SortOrder.highestPriority;
+
     isLoading = false;
 
     position: GeoPosition = {
-        lng: 0,
-        lat: 0,
+        lng: undefined,
+        lat: undefined,
         info: undefined
     };
 
@@ -120,6 +128,7 @@ export class TrafficMessagesComponent implements OnInit {
             } else {
                 this.messages = await this.service.fetchAllTrafficMessages(this.position);
             }
+            this.sortMessages();
         } catch (e) {
             this.logger.logError(e);
             return;
@@ -138,6 +147,24 @@ export class TrafficMessagesComponent implements OnInit {
                 this.trafficArea = this.getAreaFromId(event.value);
                 await this.fetchMessagesForArea();
             }
+        }
+    }
+
+    onSortOrderChanged(event) {
+        this.sortMessages();
+    }
+
+    private sortMessages() {
+        switch (this.sortOrder) {
+            case SortOrder.leastDistance:
+                this.messages.sort((a, b) => (a.distance < b.distance ? -1 : 1));
+                break;
+            case SortOrder.highestPriority:
+                this.messages.sort((a, b) => (a.priority < b.priority ? -1 : 1));
+                break;
+            case SortOrder.latestDate:
+                this.messages.sort((a, b) => (a.createdDate > b.createdDate ? -1 : 1));
+                break;
         }
     }
 }
