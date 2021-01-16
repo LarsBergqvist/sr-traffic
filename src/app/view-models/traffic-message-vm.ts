@@ -7,7 +7,7 @@ export class TrafficMessageViewModel {
     exactLocation: string;
     priority: number;
 
-    createdDate: any;
+    createdDate: Date;
     categoryName: string;
     priorityName: string;
     distance: number;

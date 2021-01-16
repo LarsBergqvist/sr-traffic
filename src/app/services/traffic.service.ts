@@ -9,6 +9,15 @@ import { convertFromJSONstring } from '../utils/date-helper';
 import { LoggingService } from './logging.service';
 import { GeoPosition } from '../models/geo-position';
 
+export enum Priority {
+    Empty = 0,
+    MycketAllvarligHändelse = 1,
+    StorHändelse = 2,
+    Störning = 3,
+    Information = 4,
+    MindreStörning = 5
+}
+
 @Injectable({
     providedIn: 'root'
 })

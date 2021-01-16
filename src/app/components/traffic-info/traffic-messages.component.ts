@@ -6,7 +6,7 @@ import { GeoPosition } from 'src/app/models/geo-position';
 import { TrafficArea } from 'src/app/models/traffic-area';
 import { LoggingService } from 'src/app/services/logging.service';
 import { MessageBrokerService } from 'src/app/services/message-broker.service';
-import { TrafficService } from 'src/app/services/traffic.service';
+import { Priority, TrafficService } from 'src/app/services/traffic.service';
 import { TrafficMessageViewModel } from 'src/app/view-models/traffic-message-vm';
 
 enum SortOrder {
@@ -22,6 +22,8 @@ enum SortOrder {
 })
 export class TrafficMessagesComponent implements OnInit {
     sortOrder: SortOrder = SortOrder.highestPriority;
+    showInformation = false;
+    showTodayOnly = false;
 
     isLoading = false;
 
@@ -150,20 +152,39 @@ export class TrafficMessagesComponent implements OnInit {
         }
     }
 
-    onSortOrderChanged(event) {
+    onSortOrdeChanged(event) {
         this.sortMessages();
+    }
+
+    matchesFilter(message: TrafficMessageViewModel) {
+        if (message.priority === Priority.Information) {
+            if (!this.showInformation) {
+                return false;
+            }
+        }
+        const now = new Date().getDate();
+        if (message.createdDate.getDate() !== now) {
+            if (this.showTodayOnly) {
+                return false;
+            }
+        }
+        return true;
     }
 
     private sortMessages() {
         switch (this.sortOrder) {
             case SortOrder.leastDistance:
-                this.messages.sort((a, b) => (a.distance < b.distance ? -1 : 1));
+                this.messages.sort(
+                    (a, b) => a.distance - b.distance || b.createdDate.getTime() - a.createdDate.getTime()
+                );
                 break;
             case SortOrder.highestPriority:
-                this.messages.sort((a, b) => (a.priority < b.priority ? -1 : 1));
+                this.messages.sort(
+                    (a, b) => a.priority - b.priority || b.createdDate.getTime() - a.createdDate.getTime()
+                );
                 break;
             case SortOrder.latestDate:
-                this.messages.sort((a, b) => (a.createdDate > b.createdDate ? -1 : 1));
+                this.messages.sort((a, b) => b.createdDate.getTime() - a.createdDate.getTime());
                 break;
         }
     }
