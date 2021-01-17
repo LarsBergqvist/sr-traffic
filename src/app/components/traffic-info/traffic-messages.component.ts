@@ -22,7 +22,7 @@ enum SortOrder {
 })
 export class TrafficMessagesComponent implements OnInit {
     sortOrder: SortOrder = SortOrder.highestPriority;
-    showInformation = false;
+    includeCategoryOther = false;
     showTodayOnly = false;
     showOnlyPublicTransport = false;
 
@@ -128,8 +128,8 @@ export class TrafficMessagesComponent implements OnInit {
     }
 
     matchesFilter(message: TrafficMessageViewModel) {
-        if (message.priority === Priority.Information) {
-            if (!this.showInformation) {
+        if (message.categoryName === 'Övrigt') {
+            if (!this.includeCategoryOther) {
                 return false;
             }
         }
