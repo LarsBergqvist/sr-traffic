@@ -145,7 +145,7 @@ export class TrafficMessagesComponent implements OnInit {
         return true;
     }
 
-    hasMessagesToDisplay() {
+    hasMessagesToDisplay(): boolean {
         if (!this.messages || this.messages.length < 1) return false;
         const messages = this.messages.filter((m) => this.matchesFilter(m) && this.matchesKeyword(m));
         return messages.length > 0;

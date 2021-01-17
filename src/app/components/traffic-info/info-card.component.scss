@@ -52,8 +52,18 @@
 }
 
 .open-button {
+    border: 1px;
+    padding: 5px;
+    border-style: solid;
+    border-color: gray;
+    border-radius: 10px;
     float: right;
-    font-size: larger;
     font-weight: bold;
+    font-size: 0.7em;
     color: gray;
+}
+
+.map-icon {
+    font-size: 2rem;
+    vertical-align: middle;
 }

@@ -1,15 +1,19 @@
+$ctlwidth: 200px;
+$margintop: 10px;
+
 .controls-container {
     margin: auto;
     width: 100%;
-    padding-bottom: 30px;
+    padding-bottom: 20px;
 }
 
 .pos-btn {
-    float: left;
+    margin-top: $margintop;
 }
 
 .area-dd {
-    padding-left: 10px;
+    margin-top: $margintop;
+    margin-bottom: $margintop;
 }
 
 :host ::ng-deep {
@@ -21,11 +25,23 @@
 .search-ctn,
 .showmap-ctn,
 .sort-ctn {
-    margin-top: 10px;
+    margin-top: $margintop;
 }
 
 .sort-filt-ctn {
     font-weight: bold;
-    margin-bottom: 10px;
-    margin-top: 10px;
+    margin-top: $margintop;
+    margin-bottom: $margintop;
+}
+
+:host::ng-deep {
+    .p-button-icon {
+        font-size: 2rem;
+    }
+    .p-button {
+        width: $ctlwidth;
+    }
+    .p-dropdown {
+        min-width: $ctlwidth;
+    }
 }

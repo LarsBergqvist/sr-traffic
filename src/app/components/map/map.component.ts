@@ -67,7 +67,8 @@ export class MapComponent {
                     text: new Text({
                         text: label,
                         font: 'bold 13px sans-serif',
-                        offsetY: -30,
+                        backgroundFill: new Fill({ color: '#ffffff' }),
+                        offsetY: -50,
                         fill: new Fill({ color: '#555588' })
                     }),
                     image: new Icon({
