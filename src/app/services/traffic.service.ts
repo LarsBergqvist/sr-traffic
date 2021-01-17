@@ -7,7 +7,7 @@ import { TrafficMessageViewModel } from '../view-models/traffic-message-vm';
 import { calcDistanceKm } from '../utils/distance-helper';
 import { convertFromJSONstring } from '../utils/date-helper';
 import { LoggingService } from './logging.service';
-import { GeoPosition } from '../models/geo-position';
+import { GeoPosition } from '../view-models/geo-position';
 
 export enum Priority {
     Empty = 0,
@@ -42,10 +42,13 @@ export class TrafficService extends SRBaseService {
         super();
     }
 
-    async fetchAllTrafficAreas(): Promise<TrafficAreasResult> {
+    async fetchAllTrafficAreas(): Promise<TrafficArea[]> {
         let url = `${this.BaseUrl}traffic/areas/?page=${1}&size=${100}&${this.FormatParam}`;
-        return this.http.get<TrafficAreasResult>(`${url}`).toPromise();
+        const res = await this.http.get<TrafficAreasResult>(`${url}`).toPromise();
+        res.areas.sort((a, b) => a.name.localeCompare(b.name));
+        return res.areas;
     }
+
     async fetchClosestTrafficAreaForPosition(position: GeoPosition): Promise<TrafficArea> {
         let url = `${this.BaseUrl}traffic/areas/?longitude=${position.lng}&latitude=${position.lat}&${this.FormatParam}`;
         const res = await this.http.get<TrafficAreaResult>(`${url}`).toPromise();

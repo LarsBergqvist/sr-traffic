@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { SelectItem } from 'primeng/api';
 import { ErrorOccurredMessage } from 'src/app/messages/error-occurred.message';
 import { ShowMapMessage } from 'src/app/messages/show-map.message';
-import { GeoPosition } from 'src/app/models/geo-position';
+import { GeoPosition } from 'src/app/view-models/geo-position';
 import { TrafficArea } from 'src/app/models/traffic-area';
 import { LoggingService } from 'src/app/services/logging.service';
 import { MessageBrokerService } from 'src/app/services/message-broker.service';
@@ -24,6 +24,7 @@ export class TrafficMessagesComponent implements OnInit {
     sortOrder: SortOrder = SortOrder.highestPriority;
     showInformation = false;
     showTodayOnly = false;
+    showOnlyPublicTransport = false;
 
     isLoading = false;
 
@@ -33,15 +34,16 @@ export class TrafficMessagesComponent implements OnInit {
         info: undefined
     };
 
-    trafficArea: TrafficArea;
-
     messages: TrafficMessageViewModel[];
-    allTrafficAreas: TrafficArea[];
 
     areaOptions: SelectItem[];
     selectedArea: number;
 
     keyword = '';
+
+    private static readonly PublicTransportCatName = 'Kollektivtrafik';
+    private trafficArea: TrafficArea;
+    private allTrafficAreas: TrafficArea[];
 
     constructor(
         private readonly broker: MessageBrokerService,
@@ -50,15 +52,22 @@ export class TrafficMessagesComponent implements OnInit {
     ) {}
 
     async ngOnInit() {
-        this.allTrafficAreas = (await this.service.fetchAllTrafficAreas()).areas;
-        this.allTrafficAreas.sort((a, b) => a.name.localeCompare(b.name));
-        this.areaOptions = [];
-        this.areaOptions.push({ label: 'Alla', value: 0 });
-        const categories = this.allTrafficAreas.map((c) => ({
-            label: c.name,
-            value: c.trafficdepartmentunitid
-        }));
-        this.areaOptions.push(...categories);
+        await this.fillTrafficAreaDropDown();
+    }
+
+    onFetchPosition() {
+        navigator.geolocation.getCurrentPosition(
+            async (position) => {
+                this.position.lat = position.coords.latitude;
+                this.position.lng = position.coords.longitude;
+                this.trafficArea = await this.service.fetchClosestTrafficAreaForPosition(this.position);
+                await this.fetchMessages();
+                this.selectedArea = this.trafficArea.trafficdepartmentunitid;
+            },
+            (error) => {
+                this.broker.sendMessage(new ErrorOccurredMessage(error.message));
+            }
+        );
     }
 
     onShowAllPositionsOnMap() {
@@ -101,53 +110,15 @@ export class TrafficMessagesComponent implements OnInit {
         }
     }
 
-    getAreaFromId(unitid: number) {
-        const area = this.allTrafficAreas.find((a) => a.trafficdepartmentunitid === unitid);
-        return area;
-    }
-
-    onFetchPosition() {
-        navigator.geolocation.getCurrentPosition(
-            async (position) => {
-                this.position.lat = position.coords.latitude;
-                this.position.lng = position.coords.longitude;
-                this.trafficArea = await this.service.fetchClosestTrafficAreaForPosition(this.position);
-                await this.fetchMessagesForArea();
-                this.selectedArea = this.trafficArea.trafficdepartmentunitid;
-            },
-            (error) => {
-                this.broker.sendMessage(new ErrorOccurredMessage(error.message));
-            }
-        );
-    }
-
-    async fetchMessagesForArea() {
-        try {
-            this.isLoading = true;
-            this.messages = [];
-            if (this.trafficArea?.name) {
-                this.messages = await this.service.fetchAllTrafficMessagesForArea(this.trafficArea.name, this.position);
-            } else {
-                this.messages = await this.service.fetchAllTrafficMessages(this.position);
-            }
-            this.sortMessages();
-        } catch (e) {
-            this.logger.logError(e);
-            return;
-        } finally {
-            this.isLoading = false;
-        }
-    }
-
     async onAreaChanged(event) {
         this.keyword = '';
         if (event.value !== '') {
             if (event.value == 0) {
                 this.trafficArea = null;
-                await this.fetchMessagesForArea();
+                await this.fetchMessages();
             } else {
                 this.trafficArea = this.getAreaFromId(event.value);
-                await this.fetchMessagesForArea();
+                await this.fetchMessages();
             }
         }
     }
@@ -168,6 +139,9 @@ export class TrafficMessagesComponent implements OnInit {
                 return false;
             }
         }
+        if (this.showOnlyPublicTransport && message.categoryName !== TrafficMessagesComponent.PublicTransportCatName) {
+            return false;
+        }
         return true;
     }
 
@@ -175,6 +149,40 @@ export class TrafficMessagesComponent implements OnInit {
         if (!this.messages || this.messages.length < 1) return false;
         const messages = this.messages.filter((m) => this.matchesFilter(m) && this.matchesKeyword(m));
         return messages.length > 0;
+    }
+
+    private async fillTrafficAreaDropDown() {
+        this.allTrafficAreas = await this.service.fetchAllTrafficAreas();
+        this.areaOptions = [];
+        this.areaOptions.push({ label: 'Alla', value: 0 });
+        const categories = this.allTrafficAreas.map((c) => ({
+            label: c.name,
+            value: c.trafficdepartmentunitid
+        }));
+        this.areaOptions.push(...categories);
+    }
+
+    private getAreaFromId(unitid: number) {
+        const area = this.allTrafficAreas.find((a) => a.trafficdepartmentunitid === unitid);
+        return area;
+    }
+
+    private async fetchMessages() {
+        try {
+            this.isLoading = true;
+            this.messages = [];
+            if (this.trafficArea?.name) {
+                this.messages = await this.service.fetchAllTrafficMessagesForArea(this.trafficArea.name, this.position);
+            } else {
+                this.messages = await this.service.fetchAllTrafficMessages(this.position);
+            }
+            this.sortMessages();
+        } catch (e) {
+            this.logger.logError(e);
+            return;
+        } finally {
+            this.isLoading = false;
+        }
     }
 
     private sortMessages() {

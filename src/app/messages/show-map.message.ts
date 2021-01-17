@@ -1,4 +1,4 @@
-import { GeoPosition } from '../models/geo-position';
+import { GeoPosition } from '../view-models/geo-position';
 import { Message } from './message';
 
 export class ShowMapMessage extends Message {

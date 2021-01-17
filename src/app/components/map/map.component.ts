@@ -6,9 +6,9 @@ import Point from 'ol/geom/Point';
 import { fromLonLat } from 'ol/proj.js';
 import { Tile as TileLayer, Vector as VectorLayer } from 'ol/layer';
 import Vector from 'ol/source/Vector';
-import { Icon, Style, Text } from 'ol/style';
+import { Fill, Icon, Style, Text } from 'ol/style';
 import OSM from 'ol/source/OSM';
-import { GeoPosition } from 'src/app/models/geo-position';
+import { GeoPosition } from 'src/app/view-models/geo-position';
 
 @Component({
     selector: 'app-map',
@@ -17,91 +17,103 @@ import { GeoPosition } from 'src/app/models/geo-position';
 })
 export class MapComponent {
     map: Map;
-    defaultZoom = 13;
-    markers: Feature[] = [];
-    private readonly maxNumMarkers = 200;
     showLabels = false;
-    positions: GeoPosition[];
+
+    private static readonly MaxNumMarkers = 200;
+    private static readonly ZoomLevelSingleMarker = 13;
+    private static readonly ZoomLevelSeveralMarkers = 6;
+    private markers: Feature[] = [];
+    private positions: GeoPosition[];
 
     @Input('markerPos') set setMarkerPos(positions: GeoPosition[]) {
         this.positions = positions;
-        this.updateMap(this.positions, true);
+        this.updateMarkers(this.positions, true);
     }
 
-    updateMap(positions: GeoPosition[], resetZoom: boolean) {
-        if (positions) {
-            if (!this.map) {
-                this.initilizeMap();
-            }
-            for (let i = 0; i < this.maxNumMarkers; i++) {
-                this.markers[i].setGeometry(null);
-            }
-            const view = this.map.getView();
-            if (resetZoom) {
-                if (positions.length > 1) {
-                    view.setZoom(6);
-                } else {
-                    view.setZoom(this.defaultZoom);
-                }
-            }
+    onShowLabelsChanged(checked) {
+        this.updateMarkers(this.positions, false);
+    }
 
-            for (let i = 0; i < Math.min(positions.length, this.maxNumMarkers); i++) {
-                const pos = positions[i];
-                this.markers[i].setGeometry(new Point(fromLonLat([pos.lng, pos.lat])));
+    private updateMarkers(positions: GeoPosition[], resetZoom: boolean) {
+        if (!positions || positions.length === 0) return;
 
-                let label = '';
-                if (this.showLabels) {
-                    label = pos.info;
-                }
-                this.markers[i].setStyle(
-                    new Style({
-                        text: new Text({ text: label, font: 'bold 13px sans-serif', offsetY: -30 }),
-                        image: new Icon({
-                            crossOrigin: 'anonymous',
-                            src: 'assets/clipart_med.png',
-                            imgSize: [60, 60],
-                            anchor: [0.5, 1],
-                            opacity: 0.5,
-                            scale: 0.5
-                        })
+        const zoomLevel =
+            positions.length === 1 ? MapComponent.ZoomLevelSingleMarker : MapComponent.ZoomLevelSeveralMarkers;
+
+        if (!this.map) {
+            this.initilizeMap();
+        }
+
+        // Clear all marker placeholders
+        for (let i = 0; i < MapComponent.MaxNumMarkers; i++) {
+            this.markers[i].setGeometry(null);
+        }
+
+        const view = this.map.getView();
+        if (resetZoom) {
+            view.setZoom(zoomLevel);
+        }
+
+        //
+        // Create a marker for each geo-position
+        //
+        for (let i = 0; i < Math.min(positions.length, MapComponent.MaxNumMarkers); i++) {
+            const pos = positions[i];
+            this.markers[i].setGeometry(new Point(fromLonLat([pos.lng, pos.lat])));
+
+            let label = this.showLabels ? pos.info : '';
+            this.markers[i].setStyle(
+                new Style({
+                    text: new Text({
+                        text: label,
+                        font: 'bold 13px sans-serif',
+                        offsetY: -30,
+                        fill: new Fill({ color: '#555588' })
+                    }),
+                    image: new Icon({
+                        src: 'assets/marker.png',
+                        imgSize: [60, 60],
+                        anchor: [0.5, 1],
+                        opacity: 0.7,
+                        scale: 0.7
                     })
-                );
-                if (i === 0 && resetZoom) {
-                    view.setCenter(fromLonLat([pos.lng, pos.lat]));
-                }
+                })
+            );
+            if (i === 0 && resetZoom) {
+                view.setCenter(fromLonLat([pos.lng, pos.lat]));
             }
         }
     }
 
-    initilizeMap(): void {
+    private initilizeMap(): void {
+        //
+        // Create placeholders for markers
+        //
         this.markers = [];
-        for (let i = 0; i < this.maxNumMarkers; i++) {
-            let marker = new Feature({});
-            this.markers.push(marker);
+        for (let i = 0; i < MapComponent.MaxNumMarkers; i++) {
+            this.markers.push(new Feature({}));
         }
 
-        let vectorLayer = new VectorLayer({
-            source: new Vector({
-                features: this.markers
-            })
-        });
-
+        //
+        // Create a map with an OpenStreetMap-layer,
+        // a marker layer and a view
+        //
         this.map = new Map({
             target: 'map',
             layers: [
                 new TileLayer({
                     source: new OSM()
                 }),
-                vectorLayer
+                new VectorLayer({
+                    source: new Vector({
+                        features: this.markers
+                    })
+                })
             ],
             view: new View({
                 center: fromLonLat([0, 0]),
-                zoom: this.defaultZoom
+                zoom: MapComponent.ZoomLevelSingleMarker
             })
         });
-    }
-
-    onShowLabelsChanged(checked) {
-        this.updateMap(this.positions, false);
     }
 }

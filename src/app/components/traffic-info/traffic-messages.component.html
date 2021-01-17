@@ -46,11 +46,15 @@
                                 Filtrering
                             </div>
                             <div class="p-field-checkbox">
-                                <p-checkbox [(ngModel)]="showInformation" binary="true" label="Information">
+                                <p-checkbox [(ngModel)]="showInformation" binary="true" label="Inkl. låg prioritet">
                                 </p-checkbox>
                             </div>
                             <div class="p-field-checkbox">
                                 <p-checkbox [(ngModel)]="showTodayOnly" binary="true" label="Endast idag"></p-checkbox>
+                            </div>
+                            <div class="p-field-checkbox">
+                                <p-checkbox [(ngModel)]="showOnlyPublicTransport" binary="true"
+                                    label="Endast kollektivtrafik"></p-checkbox>
                             </div>
                         </div>
                     </div>

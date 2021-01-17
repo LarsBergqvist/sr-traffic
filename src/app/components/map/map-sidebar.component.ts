@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
 import { ShowMapMessage } from 'src/app/messages/show-map.message';
-import { GeoPosition } from 'src/app/models/geo-position';
+import { GeoPosition } from 'src/app/view-models/geo-position';
 import { MessageBrokerService } from 'src/app/services/message-broker.service';
 
 @Component({
