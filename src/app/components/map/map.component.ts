@@ -9,7 +9,7 @@ import Vector from 'ol/source/Vector';
 import { Fill, Icon, Style, Text } from 'ol/style';
 import OSM from 'ol/source/OSM';
 import { GeoPosition } from 'src/app/view-models/geo-position';
-
+import { Attribution, Control, defaults as defaultControls } from 'ol/control';
 @Component({
     selector: 'app-map',
     templateUrl: './map.component.html',
@@ -99,7 +99,11 @@ export class MapComponent {
         // Create a map with an OpenStreetMap-layer,
         // a marker layer and a view
         //
+        var attribution = new Attribution({
+            target: 'attribution'
+        });
         this.map = new Map({
+            controls: defaultControls({ attribution: false }).extend([attribution]),
             target: 'map',
             layers: [
                 new TileLayer({

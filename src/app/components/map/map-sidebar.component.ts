@@ -15,7 +15,6 @@ export class MapSidebarComponent implements OnInit, OnDestroy {
     details: string;
     isVisible = false;
     markerPos: GeoPosition[];
-    info: string;
 
     close() {
         this.isVisible = false;
@@ -34,11 +33,6 @@ export class MapSidebarComponent implements OnInit, OnDestroy {
                 this.markerPos = message.positions;
                 this.title = message.title;
                 this.details = message.details;
-                if (message.positions.length == 1) {
-                    this.info = message.positions[0].info;
-                } else {
-                    this.info = '';
-                }
                 this.isVisible = true;
             });
     }
