@@ -16,12 +16,6 @@ $margintop: 10px;
     margin-bottom: $margintop;
 }
 
-:host ::ng-deep {
-    .sr-button {
-        border-radius: 10px;
-    }
-}
-
 .search-ctn,
 .showmap-ctn,
 .sort-ctn {
@@ -32,16 +26,4 @@ $margintop: 10px;
     font-weight: bold;
     margin-top: $margintop;
     margin-bottom: $margintop;
-}
-
-:host::ng-deep {
-    .p-button-icon {
-        font-size: 2rem;
-    }
-    .p-button {
-        width: $ctlwidth;
-    }
-    .p-dropdown {
-        min-width: $ctlwidth;
-    }
 }

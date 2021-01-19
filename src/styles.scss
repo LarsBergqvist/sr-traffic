@@ -15,8 +15,8 @@
     cursor: pointer;
 }
 
-.sr-sidebar {
-    width: 100% !important;
+.sr-sidebar.p-sidebar {
+    width: 100%;
 }
 
 .close-button {
@@ -35,9 +35,22 @@
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
-    margin-right: 20px !important;
+    margin-right: 20px;
 }
 
 .clear {
     clear: both;
+}
+
+$ctlwidth: 200px;
+
+.p-button-icon {
+    font-size: 2rem;
+}
+.sr-button.p-button {
+    width: $ctlwidth;
+    border-radius: 10px;
+}
+.p-dropdown {
+    min-width: $ctlwidth;
 }
