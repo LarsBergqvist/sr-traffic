@@ -19,7 +19,8 @@
     </div>
     <div *ngIf="messages">
         <div *ngFor="let m of messages; index as i;">
-            <app-info-card *ngIf="matchesKeyword(m) && matchesFilter(m)" [message]=m></app-info-card>
+            <app-info-card *ngIf="matchesKeyword(m) && matchesFilter(m)" [message]=m [showMapLink]="true">
+            </app-info-card>
         </div>
     </div>
 </div>

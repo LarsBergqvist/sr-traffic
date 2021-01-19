@@ -1,0 +1,7 @@
+<p-sidebar *ngIf="true" [(visible)]="isVisible" position="bottom" styleClass="sr-bottomsidebar" [showCloseIcon]="false">
+
+    <div class="details-header-text">
+        <i (click)="close()" class="pi pi-chevron-down close-button clickable"></i>
+    </div>
+    <app-info-card [message]="trafficMessage"></app-info-card>
+</p-sidebar>

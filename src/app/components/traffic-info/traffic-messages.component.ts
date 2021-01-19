@@ -31,7 +31,8 @@ export class TrafficMessagesComponent implements OnInit {
     position: GeoPosition = {
         lng: undefined,
         lat: undefined,
-        info: undefined
+        info: undefined,
+        id: undefined
     };
 
     messages: TrafficMessageViewModel[];
@@ -80,7 +81,8 @@ export class TrafficMessagesComponent implements OnInit {
                 const pos: GeoPosition = {
                     lat: m.latitude,
                     lng: m.longitude,
-                    info: `${m.priorityName}: ${m.title} (${m.subCategory})`
+                    info: `${m.priorityName}: ${m.title} (${m.subCategory})`,
+                    id: m.id
                 };
                 positions.push(pos);
             });

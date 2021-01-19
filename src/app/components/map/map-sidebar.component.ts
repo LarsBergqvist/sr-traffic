@@ -16,10 +16,6 @@ export class MapSidebarComponent implements OnInit, OnDestroy {
     isVisible = false;
     markerPos: GeoPosition[];
 
-    close() {
-        this.isVisible = false;
-    }
-
     constructor(private readonly broker: MessageBrokerService) {}
 
     ngOnInit() {
@@ -40,5 +36,9 @@ export class MapSidebarComponent implements OnInit, OnDestroy {
     ngOnDestroy(): void {
         this.unsubscribe$.next();
         this.unsubscribe$.complete();
+    }
+
+    close() {
+        this.isVisible = false;
     }
 }

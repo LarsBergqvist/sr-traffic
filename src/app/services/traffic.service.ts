@@ -22,6 +22,8 @@ export enum Priority {
     providedIn: 'root'
 })
 export class TrafficService extends SRBaseService {
+    private cachedMessages: TrafficMessageViewModel[];
+
     private readonly categoryMap = {
         0: 'Vägtrafik',
         1: 'Kollektivtrafik',
@@ -57,7 +59,8 @@ export class TrafficService extends SRBaseService {
 
     async fetchAllTrafficMessages(position: GeoPosition): Promise<TrafficMessageViewModel[]> {
         let url = `${this.BaseUrl}traffic/messages/?page=${1}&size=${200}&${this.FormatParam}`;
-        return await this.fetchMessages(url, position);
+        this.cachedMessages = await this.fetchMessages(url, position);
+        return this.cachedMessages;
     }
 
     async fetchAllTrafficMessagesForArea(
@@ -68,7 +71,13 @@ export class TrafficService extends SRBaseService {
             this.FormatParam
         }`;
 
-        return await this.fetchMessages(url, position);
+        this.cachedMessages = await this.fetchMessages(url, position);
+        return this.cachedMessages;
+    }
+
+    getCachedMessageFromId(id: number): TrafficMessageViewModel {
+        if (!this.cachedMessages) return;
+        return this.cachedMessages.find((m) => m.id === id);
     }
 
     private async fetchMessages(url: string, position: GeoPosition): Promise<TrafficMessageViewModel[]> {
@@ -86,6 +95,7 @@ export class TrafficService extends SRBaseService {
             m.exactLocation = e.exactlocation;
             m.latitude = e.latitude;
             m.longitude = e.longitude;
+            m.id = e.id;
 
             if (position.lng && position.lat && e.latitude && e.longitude) {
                 try {

@@ -1,4 +1,5 @@
 export class TrafficMessageViewModel {
+    id: number;
     description: string;
     longitude: number;
     latitude: number;

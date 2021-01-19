@@ -6,10 +6,15 @@ import Point from 'ol/geom/Point';
 import { fromLonLat } from 'ol/proj.js';
 import { Tile as TileLayer, Vector as VectorLayer } from 'ol/layer';
 import Vector from 'ol/source/Vector';
-import { Fill, Icon, Style, Text } from 'ol/style';
 import OSM from 'ol/source/OSM';
 import { GeoPosition } from 'src/app/view-models/geo-position';
-import { Attribution, Control, defaults as defaultControls } from 'ol/control';
+import { Attribution, defaults as defaultControls } from 'ol/control';
+import Select from 'ol/interaction/Select';
+import { FeatureHelper } from './feature-helper';
+import { MessageBrokerService } from 'src/app/services/message-broker.service';
+import { ShowInfoSidebarMessage } from 'src/app/messages/show-info-sidebar.message';
+import { click } from 'ol/events/condition';
+
 @Component({
     selector: 'app-map',
     templateUrl: './map.component.html',
@@ -29,6 +34,8 @@ export class MapComponent {
         this.positions = positions;
         this.updateMarkers(this.positions, true);
     }
+
+    constructor(private readonly broker: MessageBrokerService) {}
 
     onShowLabelsChanged(checked) {
         this.updateMarkers(this.positions, false);
@@ -59,27 +66,12 @@ export class MapComponent {
         //
         for (let i = 0; i < Math.min(positions.length, MapComponent.MaxNumMarkers); i++) {
             const pos = positions[i];
-            this.markers[i].setGeometry(new Point(fromLonLat([pos.lng, pos.lat])));
+            const marker = this.markers[i];
+            marker.setId(pos.id);
+            marker.setGeometry(new Point(fromLonLat([pos.lng, pos.lat])));
+            marker.setProperties({ info: pos.info });
+            FeatureHelper.styleFeature(marker, this.showLabels);
 
-            let label = this.showLabels ? pos.info : '';
-            this.markers[i].setStyle(
-                new Style({
-                    text: new Text({
-                        text: label,
-                        font: 'bold 13px sans-serif',
-                        backgroundFill: new Fill({ color: '#ffffff' }),
-                        offsetY: -50,
-                        fill: new Fill({ color: '#555588' })
-                    }),
-                    image: new Icon({
-                        src: 'assets/marker.png',
-                        imgSize: [60, 60],
-                        anchor: [0.5, 1],
-                        opacity: 0.7,
-                        scale: 0.7
-                    })
-                })
-            );
             if (i === 0 && resetZoom) {
                 view.setCenter(fromLonLat([pos.lng, pos.lat]));
             }
@@ -98,8 +90,9 @@ export class MapComponent {
         //
         // Create a map with an OpenStreetMap-layer,
         // a marker layer and a view
-        //
         var attribution = new Attribution({
+            // Attach the attribution information
+            // to an element outside of the map
             target: 'attribution'
         });
         this.map = new Map({
@@ -119,6 +112,22 @@ export class MapComponent {
                 center: fromLonLat([0, 0]),
                 zoom: MapComponent.ZoomLevelSingleMarker
             })
+        });
+
+        //
+        // Setup handler for clicks on markers
+        //
+        let selectSingleClick: any = new Select({ style: null, condition: click, toggleCondition: () => true });
+        this.map.addInteraction(selectSingleClick);
+        selectSingleClick.on('select', (e) => {
+            let id = null;
+            if (e.selected && e.selected.length === 1) {
+                id = e.selected[0].getId();
+                this.broker.sendMessage(new ShowInfoSidebarMessage(id));
+            } else if (e.deselected && e.deselected.length === 1) {
+                id = e.deselected[0].getId();
+                this.broker.sendMessage(new ShowInfoSidebarMessage(id));
+            }
         });
     }
 }

@@ -18,7 +18,7 @@
                 {{message.createdDate | date:'d MMM HH:mm'}}
             </div>
         </div>
-        <div class="p-col-4">
+        <div class="p-col-4" *ngIf="showMapLink">
             <div class="open-button" (click)="onClickMessage(message)">
                 <span>Karta</span>
                 <i class="pi pi-globe map-icon"></i>
