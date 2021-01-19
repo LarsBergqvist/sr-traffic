@@ -121,10 +121,10 @@ export class MapComponent {
         this.map.addInteraction(selectSingleClick);
         selectSingleClick.on('select', (e) => {
             let id = null;
-            if (e.selected && e.selected.length === 1) {
+            if (e.selected && e.selected.length > 0) {
                 id = e.selected[0].getId();
                 this.broker.sendMessage(new ShowInfoSidebarMessage(id));
-            } else if (e.deselected && e.deselected.length === 1) {
+            } else if (e.deselected && e.deselected.length > 0) {
                 id = e.deselected[0].getId();
                 this.broker.sendMessage(new ShowInfoSidebarMessage(id));
             }

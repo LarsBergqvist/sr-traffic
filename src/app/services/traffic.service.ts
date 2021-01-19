@@ -59,8 +59,7 @@ export class TrafficService extends SRBaseService {
 
     async fetchAllTrafficMessages(position: GeoPosition): Promise<TrafficMessageViewModel[]> {
         let url = `${this.BaseUrl}traffic/messages/?page=${1}&size=${200}&${this.FormatParam}`;
-        this.cachedMessages = await this.fetchMessages(url, position);
-        return this.cachedMessages;
+        return await this.fetchMessages(url, position);
     }
 
     async fetchAllTrafficMessagesForArea(
@@ -70,9 +69,7 @@ export class TrafficService extends SRBaseService {
         let url = `${this.BaseUrl}traffic/messages/?trafficareaname=${trafficAreaName}&page=${1}&size=${100}&${
             this.FormatParam
         }`;
-
-        this.cachedMessages = await this.fetchMessages(url, position);
-        return this.cachedMessages;
+        return await this.fetchMessages(url, position);
     }
 
     getCachedMessageFromId(id: number): TrafficMessageViewModel {
@@ -111,6 +108,7 @@ export class TrafficService extends SRBaseService {
             messages.push(m);
         });
         messages.sort((a, b) => (a.priority < b.priority ? -1 : 1));
-        return messages;
+        this.cachedMessages = messages;
+        return this.cachedMessages;
     }
 }
