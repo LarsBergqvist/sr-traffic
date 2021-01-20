@@ -129,7 +129,7 @@ export class TrafficMessagesComponent implements OnInit {
         }
     }
 
-    onSortOrdeChanged() {
+    onSortOrderChanged() {
         this.sortMessages();
     }
 

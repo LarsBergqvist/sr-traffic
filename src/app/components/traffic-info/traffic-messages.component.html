@@ -11,20 +11,17 @@
                     <div class="p-grid">
                         <div class="p-col-8">
                             <div>
-                                lng:{{position.lng | number:'3.1-5'}}
+                                LNG:{{position.lng | number:'1.5'}}
                             </div>
                             <div>
-                                lat:{{position.lat | number:'3.1-5'}}
+                                LAT:{{position.lat | number:'1.5'}}
                             </div>
 
                         </div>
                         <div class="p-col-4">
                             <i class="pi pi-globe latlng-globe"></i>
-
                         </div>
-
                     </div>
-
                 </td>
             </tr>
         </table>
@@ -65,16 +62,16 @@
                         Sortering
                     </div>
                     <div class="p-field-radiobutton">
-                        <p-radioButton (onClick)="onSortOrdeChanged()" value="1" [(ngModel)]="sortOrder"
+                        <p-radioButton (onClick)="onSortOrderChanged()" value="1" [(ngModel)]="sortOrder"
                             label="Högst prioritet"></p-radioButton>
                     </div>
                     <div class="p-field-radiobutton">
-                        <p-radioButton (onClick)="onSortOrdeChanged()" value="3" [(ngModel)]="sortOrder"
+                        <p-radioButton (onClick)="onSortOrderChanged()" value="3" [(ngModel)]="sortOrder"
                             label="Senaste">
                         </p-radioButton>
                     </div>
                     <div class="p-field-radiobutton" *ngIf="position.lat">
-                        <p-radioButton (onClick)="onSortOrdeChanged()" value="2" [(ngModel)]="sortOrder"
+                        <p-radioButton (onClick)="onSortOrderChanged()" value="2" [(ngModel)]="sortOrder"
                             label="Närmast"></p-radioButton>
                     </div>
                 </div>
