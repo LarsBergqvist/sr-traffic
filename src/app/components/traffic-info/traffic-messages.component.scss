@@ -37,7 +37,7 @@ $margintop: 10px;
     padding-right: 10px;
     margin-top: 20px;
     vertical-align: middle;
-    font-size: 0.6em;
+    font-size: 0.8em;
     overflow: hidden;
     white-space: nowrap;
 }
@@ -47,5 +47,14 @@ $margintop: 10px;
 }
 
 .latlng-globe {
-    font-size: 1.5em;
+    font-size: 2em;
+}
+
+@media only screen and (max-width: 345px) {
+    .latlng-globe {
+        display: none;
+    }
+    .lnglat-ctn {
+        font-size: 0.5em;
+    }
 }
