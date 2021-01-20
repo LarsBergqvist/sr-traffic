@@ -18,7 +18,7 @@ $margintop: 10px;
 
 .search-ctn,
 .showmap-ctn,
-.sort-ctn {
+.sortfilt-ctn {
     margin-top: $margintop;
 }
 
@@ -26,4 +26,26 @@ $margintop: 10px;
     font-weight: bold;
     margin-top: $margintop;
     margin-bottom: $margintop;
+}
+
+.lnglat-ctn {
+    color: white;
+    background-color: #919568;
+    border: 1px solid gray;
+    border-radius: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    margin-top: 20px;
+    vertical-align: middle;
+    font-size: 0.6em;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.table-ctn {
+    margin-left: -3px;
+}
+
+.latlng-globe {
+    font-size: 1.5em;
 }

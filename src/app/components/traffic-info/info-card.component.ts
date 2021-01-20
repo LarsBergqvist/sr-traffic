@@ -12,6 +12,7 @@ import { TrafficMessageViewModel } from 'src/app/view-models/traffic-message-vm'
 export class InfoCardComponent implements OnInit {
     @Input() message: TrafficMessageViewModel;
     @Input() showMapLink = false;
+    @Input() userPos: GeoPosition;
 
     constructor(private readonly broker: MessageBrokerService) {}
 
@@ -27,7 +28,12 @@ export class InfoCardComponent implements OnInit {
         const positions: GeoPosition[] = [];
         positions.push(pos);
         this.broker.sendMessage(
-            new ShowMapMessage(positions, `${message.title} (${message.subCategory})`, message.description)
+            new ShowMapMessage(
+                positions,
+                this.userPos,
+                `${message.title} (${message.subCategory})`,
+                message.description
+            )
         );
     }
 

@@ -6,7 +6,7 @@ import { GeoPosition } from 'src/app/view-models/geo-position';
 import { TrafficArea } from 'src/app/models/traffic-area';
 import { LoggingService } from 'src/app/services/logging.service';
 import { MessageBrokerService } from 'src/app/services/message-broker.service';
-import { Priority, TrafficService } from 'src/app/services/traffic.service';
+import { TrafficService } from 'src/app/services/traffic.service';
 import { TrafficMessageViewModel } from 'src/app/view-models/traffic-message-vm';
 
 enum SortOrder {
@@ -43,6 +43,7 @@ export class TrafficMessagesComponent implements OnInit {
     keyword = '';
 
     private static readonly PublicTransportCatName = 'Kollektivtrafik';
+    private static readonly OtherTransportCatName = 'Övrigt';
     private trafficArea: TrafficArea;
     private allTrafficAreas: TrafficArea[];
 
@@ -59,6 +60,10 @@ export class TrafficMessagesComponent implements OnInit {
     onFetchPosition() {
         navigator.geolocation.getCurrentPosition(
             async (position) => {
+                if (!this.allTrafficAreas) {
+                    // Re-fetch traffic areas if needed
+                    await this.fillTrafficAreaDropDown();
+                }
                 this.position.lat = position.coords.latitude;
                 this.position.lng = position.coords.longitude;
                 this.trafficArea = await this.service.fetchClosestTrafficAreaForPosition(this.position);
@@ -69,6 +74,10 @@ export class TrafficMessagesComponent implements OnInit {
                 this.broker.sendMessage(new ErrorOccurredMessage(error.message));
             }
         );
+    }
+
+    onShowUserOnMap() {
+        this.broker.sendMessage(new ShowMapMessage([], this.position, 'Din position'));
     }
 
     onShowAllPositionsOnMap() {
@@ -88,11 +97,8 @@ export class TrafficMessagesComponent implements OnInit {
             });
         if (positions.length == 0) return;
 
-        let title = 'Alla trafikområden';
-        if (this.trafficArea?.name) {
-            title = `Trafikområde: ${this.trafficArea.name}`;
-        }
-        this.broker.sendMessage(new ShowMapMessage(positions, title));
+        let title = this.trafficArea?.name ? `Trafikområde: ${this.trafficArea.name}` : 'Alla trafikområden';
+        this.broker.sendMessage(new ShowMapMessage(positions, this.position, title));
     }
 
     matchesKeyword(message: TrafficMessageViewModel): boolean {
@@ -114,23 +120,21 @@ export class TrafficMessagesComponent implements OnInit {
 
     async onAreaChanged(event) {
         this.keyword = '';
-        if (event.value !== '') {
-            if (event.value == 0) {
-                this.trafficArea = null;
-                await this.fetchMessages();
-            } else {
-                this.trafficArea = this.getAreaFromId(event.value);
-                await this.fetchMessages();
-            }
+        if (event.value == 0) {
+            this.trafficArea = null;
+            await this.fetchMessages();
+        } else {
+            this.trafficArea = this.getAreaFromId(event.value);
+            await this.fetchMessages();
         }
     }
 
-    onSortOrdeChanged(event) {
+    onSortOrdeChanged() {
         this.sortMessages();
     }
 
     matchesFilter(message: TrafficMessageViewModel) {
-        if (message.categoryName === 'Övrigt') {
+        if (message.categoryName === TrafficMessagesComponent.OtherTransportCatName) {
             if (!this.includeCategoryOther) {
                 return false;
             }

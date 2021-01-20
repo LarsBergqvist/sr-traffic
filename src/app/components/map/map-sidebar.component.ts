@@ -2,8 +2,8 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
 import { ShowMapMessage } from 'src/app/messages/show-map.message';
-import { GeoPosition } from 'src/app/view-models/geo-position';
 import { MessageBrokerService } from 'src/app/services/message-broker.service';
+import { MapInput } from './map.component';
 
 @Component({
     selector: 'app-map-sidebar',
@@ -14,7 +14,7 @@ export class MapSidebarComponent implements OnInit, OnDestroy {
     title: string;
     details: string;
     isVisible = false;
-    markerPos: GeoPosition[];
+    mapInput: MapInput = null;
 
     constructor(private readonly broker: MessageBrokerService) {}
 
@@ -26,7 +26,10 @@ export class MapSidebarComponent implements OnInit, OnDestroy {
                 filter((message) => message instanceof ShowMapMessage)
             )
             .subscribe((message: ShowMapMessage) => {
-                this.markerPos = message.positions;
+                const input = new MapInput();
+                input.markerPosisitons = message.positions;
+                input.userPos = message.userPos;
+                this.mapInput = input;
                 this.title = message.title;
                 this.details = message.details;
                 this.isVisible = true;
