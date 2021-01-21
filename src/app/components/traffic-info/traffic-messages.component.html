@@ -29,6 +29,9 @@
         <div class="area-dd">
             <p-dropdown [disabled]="isLoading" [(ngModel)]="selectedArea" [options]="areaOptions"
                 (onChange)="onAreaChanged($event)" placeholder="Välj område"></p-dropdown>
+            <span *ngIf="!isLoading && selectedArea !== undefined" (click)="onRefresh()">
+                <i class="pi pi-refresh refresh-btn"></i>
+            </span>
         </div>
         <div class="sortfilt-ctn" *ngIf="(!messages || messages.length === 0) else sortfilt">
         </div>

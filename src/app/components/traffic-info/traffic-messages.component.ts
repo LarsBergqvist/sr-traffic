@@ -119,7 +119,7 @@ export class TrafficMessagesComponent implements OnInit {
             });
         if (positions.length == 0) return;
 
-        let title = this.trafficArea?.name ? `Trafikområde: ${this.trafficArea.name}` : 'Alla trafikområden';
+        let title = this.trafficArea?.name ? `Trafikområde: ${this.trafficArea.name}` : 'Hela Sverige';
         this.broker.sendMessage(new ShowMapMessage(positions, this.position, title));
     }
 
@@ -149,6 +149,10 @@ export class TrafficMessagesComponent implements OnInit {
             this.trafficArea = this.getAreaFromId(event.value);
             await this.fetchMessages();
         }
+    }
+
+    async onRefresh() {
+        await this.fetchMessages();
     }
 
     onSortOrderChanged() {
@@ -196,7 +200,7 @@ export class TrafficMessagesComponent implements OnInit {
     private async fillTrafficAreaDropDown() {
         this.allTrafficAreas = await this.service.fetchAllTrafficAreas();
         this.areaOptions = [];
-        this.areaOptions.push({ label: 'Alla', value: 0 });
+        this.areaOptions.push({ label: 'Hela Sverige', value: 0 });
         const categories = this.allTrafficAreas.map((c) => ({
             label: c.name,
             value: c.trafficdepartmentunitid
