@@ -84,10 +84,18 @@
                         </p-checkbox>
                     </div>
                     <div class="p-field-checkbox">
+                        <p-checkbox [(ngModel)]="includeSubcategoryRoadwork" binary="true" label="Visa vägarbeten">
+                        </p-checkbox>
+                    </div>
+                    <div class="p-field-checkbox">
                         <p-checkbox [(ngModel)]="showTodayOnly" binary="true" label="Endast idag"></p-checkbox>
                     </div>
                     <div class="p-field-checkbox">
-                        <p-checkbox [(ngModel)]="showOnlyPublicTransport" binary="true" label="Endast kollektivtrafik">
+                        <p-checkbox [(ngModel)]="showTrafficIncidentsOnly" binary="true" label="Endast olyckor">
+                        </p-checkbox>
+                    </div>
+                    <div class="p-field-checkbox">
+                        <p-checkbox [(ngModel)]="showPublicTransportOnly" binary="true" label="Endast kollektivtrafik">
                         </p-checkbox>
                     </div>
                 </div>

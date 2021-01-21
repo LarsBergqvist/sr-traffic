@@ -10,6 +10,6 @@
         </div>
     </div>
     <hr>
-    <app-map [mapInput]="mapInput"></app-map>
+    <app-map [mapInput]="mapInput" (onMarkerClicked)="onMapMarkerClicked($event)"></app-map>
 </p-sidebar>
 <app-info-sidebar></app-info-sidebar>

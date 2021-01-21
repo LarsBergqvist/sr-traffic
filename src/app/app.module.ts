@@ -26,7 +26,7 @@ import { InfoCardComponent } from './components/traffic-info/info-card.component
 import { FormsModule } from '@angular/forms';
 import { MapSidebarComponent } from './components/map/map-sidebar.component';
 import { RadioButtonModule } from 'primeng/radiobutton';
-import { InfoSideBarComponent } from './components/map/info-sidebar.component';
+import { InfoSideBarComponent } from './components/traffic-info/info-sidebar.component';
 
 @NgModule({
     declarations: [

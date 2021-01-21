@@ -9,6 +9,7 @@ export class TrafficMessageViewModel {
     priority: number;
 
     createdDate: Date;
+    category: number;
     categoryName: string;
     priorityName: string;
     distance: number;

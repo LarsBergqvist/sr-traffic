@@ -18,6 +18,19 @@ export enum Priority {
     MindreStörning = 5
 }
 
+export enum Category {
+    Vägtrafik = 0,
+    Kollektivtrafik = 1,
+    PlaneradStörening = 2,
+    Övrigt = 3
+}
+
+export enum SubCategory {
+    Vägarbete = 'Vägarbete',
+    Trafikstörning = 'Trafikstörning',
+    TrafikOlycka = 'Trafikolycka'
+}
+
 @Injectable({
     providedIn: 'root'
 })
@@ -83,6 +96,7 @@ export class TrafficService extends SRBaseService {
         res.messages.forEach((e) => {
             let m = new TrafficMessageViewModel();
 
+            m.category = e.category;
             m.categoryName = this.categoryMap[e.category];
             m.priorityName = this.priorityNameMap[e.priority];
             m.priority = e.priority;

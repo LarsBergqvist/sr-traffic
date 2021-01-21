@@ -1,4 +1,8 @@
+import { click } from 'ol/events/condition';
 import Feature from 'ol/Feature';
+import Select, { SelectEvent } from 'ol/interaction/Select';
+import VectorLayer from 'ol/layer/Vector';
+import Map from 'ol/Map';
 import { Fill, Icon, Style, Text } from 'ol/style';
 
 export function styleMarkersAsDeselected(features: Feature[]) {
@@ -48,4 +52,42 @@ export function styleUser(feature: Feature) {
             })
         })
     );
+}
+
+export interface CallBackOnClickFunction {
+    (num: number): void;
+}
+
+export function setupMarkerClickHandler(
+    map: Map,
+    markersLayer: VectorLayer,
+    allMarkers: Feature[],
+    callbackOnClick: CallBackOnClickFunction
+) {
+    //
+    // Setup handler for clicks on markers
+    // Use SelectEvent with toggle mode to act on each
+    // click on a marker
+    //
+    let selectSingleClick: any = new Select({
+        style: null,
+        condition: click,
+        toggleCondition: () => true,
+        layers: [markersLayer]
+    });
+    map.addInteraction(selectSingleClick);
+    selectSingleClick.on('select', (e: SelectEvent) => {
+        styleMarkersAsDeselected(allMarkers);
+        let markers = null;
+        if (e.selected && e.selected.length > 0) {
+            markers = e.selected;
+        } else if (e.deselected && e.deselected.length > 0) {
+            markers = e.deselected;
+        }
+        if (markers) {
+            const marker = markers[0];
+            styleMarker(marker, true);
+            callbackOnClick(marker.getId());
+        }
+    });
 }

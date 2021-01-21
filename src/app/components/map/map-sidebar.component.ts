@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
+import { ShowInfoSidebarMessage } from 'src/app/messages/show-info-sidebar.message';
 import { ShowMapMessage } from 'src/app/messages/show-map.message';
 import { MessageBrokerService } from 'src/app/services/message-broker.service';
 import { MapInput } from './map.component';
@@ -43,5 +44,9 @@ export class MapSidebarComponent implements OnInit, OnDestroy {
 
     close() {
         this.isVisible = false;
+    }
+
+    onMapMarkerClicked(id: number) {
+        this.broker.sendMessage(new ShowInfoSidebarMessage(id));
     }
 }

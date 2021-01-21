@@ -1,19 +1,15 @@
-import { Component, Input } from '@angular/core';
-import Map from 'ol/Map';
-import View from 'ol/View';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Attribution, defaults as defaultControls } from 'ol/control';
 import Feature from 'ol/Feature';
 import Point from 'ol/geom/Point';
-import { fromLonLat } from 'ol/proj.js';
 import { Tile as TileLayer, Vector as VectorLayer } from 'ol/layer';
-import Vector from 'ol/source/Vector';
+import Map from 'ol/Map';
+import { fromLonLat } from 'ol/proj.js';
 import OSM from 'ol/source/OSM';
+import Vector from 'ol/source/Vector';
+import View from 'ol/View';
 import { GeoPosition } from 'src/app/view-models/geo-position';
-import { Attribution, defaults as defaultControls } from 'ol/control';
-import Select, { SelectEvent } from 'ol/interaction/Select';
-import { MessageBrokerService } from 'src/app/services/message-broker.service';
-import { ShowInfoSidebarMessage } from 'src/app/messages/show-info-sidebar.message';
-import { click } from 'ol/events/condition';
-import { styleMarker, styleMarkersAsDeselected, styleUser } from './map-functions';
+import { setupMarkerClickHandler, styleMarker, styleUser } from './map-functions';
 
 export class MapInput {
     markerPosisitons: GeoPosition[];
@@ -40,8 +36,7 @@ export class MapComponent {
         if (!input) return;
         this.setupMap(input);
     }
-
-    constructor(private readonly broker: MessageBrokerService) {}
+    @Output() onMarkerClicked = new EventEmitter<number>();
 
     private setupMap(input: MapInput) {
         this.positions = input.markerPosisitons;
@@ -134,40 +129,6 @@ export class MapComponent {
             })
         });
 
-        this.setupMarkerClickHandler(markersLayer);
-    }
-
-    private setupMarkerClickHandler(markersLayer: VectorLayer) {
-        //
-        // Setup handler for clicks on markers
-        // Use SelectEvent with toggle mode to act on each
-        // click on a marker
-        //
-        let selectSingleClick: any = new Select({
-            style: null,
-            condition: click,
-            toggleCondition: () => true,
-            layers: [markersLayer]
-        });
-        this.map.addInteraction(selectSingleClick);
-        selectSingleClick.on('select', (e: SelectEvent) => {
-            styleMarkersAsDeselected(this.markers);
-            let id = null;
-            let markers = null;
-            if (e.selected && e.selected.length > 0) {
-                markers = e.selected;
-            } else if (e.deselected && e.deselected.length > 0) {
-                markers = e.deselected;
-                id = e.deselected[0].getId();
-                styleMarker(e.deselected[0], true);
-                this.broker.sendMessage(new ShowInfoSidebarMessage(id));
-            }
-            if (markers) {
-                const marker = markers[0];
-                styleMarker(marker, true);
-                id = marker.getId();
-                this.broker.sendMessage(new ShowInfoSidebarMessage(id));
-            }
-        });
+        setupMarkerClickHandler(this.map, markersLayer, this.markers, (id) => this.onMarkerClicked.emit(id));
     }
 }

@@ -6,7 +6,7 @@ import { GeoPosition } from 'src/app/view-models/geo-position';
 import { TrafficArea } from 'src/app/models/traffic-area';
 import { LoggingService } from 'src/app/services/logging.service';
 import { MessageBrokerService } from 'src/app/services/message-broker.service';
-import { TrafficService } from 'src/app/services/traffic.service';
+import { Category, SubCategory, TrafficService } from 'src/app/services/traffic.service';
 import { TrafficMessageViewModel } from 'src/app/view-models/traffic-message-vm';
 
 enum SortOrder {
@@ -24,7 +24,9 @@ export class TrafficMessagesComponent implements OnInit {
     sortOrder: SortOrder = SortOrder.highestPriority;
     includeCategoryOther = false;
     showTodayOnly = false;
-    showOnlyPublicTransport = false;
+    showPublicTransportOnly = false;
+    showTrafficIncidentsOnly = false;
+    includeSubcategoryRoadwork = true;
 
     isLoading = false;
 
@@ -42,8 +44,6 @@ export class TrafficMessagesComponent implements OnInit {
 
     keyword = '';
 
-    private static readonly PublicTransportCatName = 'Kollektivtrafik';
-    private static readonly OtherTransportCatName = 'Övrigt';
     private trafficArea: TrafficArea;
     private allTrafficAreas: TrafficArea[];
 
@@ -134,7 +134,17 @@ export class TrafficMessagesComponent implements OnInit {
     }
 
     matchesFilter(message: TrafficMessageViewModel) {
-        if (message.categoryName === TrafficMessagesComponent.OtherTransportCatName) {
+        if (message.subCategory !== SubCategory.TrafikOlycka) {
+            if (this.showTrafficIncidentsOnly) {
+                return false;
+            }
+        }
+        if (message.subCategory === SubCategory.Vägarbete) {
+            if (!this.includeSubcategoryRoadwork) {
+                return false;
+            }
+        }
+        if (message.category === Category.Övrigt) {
             if (!this.includeCategoryOther) {
                 return false;
             }
@@ -145,7 +155,7 @@ export class TrafficMessagesComponent implements OnInit {
                 return false;
             }
         }
-        if (this.showOnlyPublicTransport && message.categoryName !== TrafficMessagesComponent.PublicTransportCatName) {
+        if (this.showPublicTransportOnly && message.category !== Category.Kollektivtrafik) {
             return false;
         }
         return true;
