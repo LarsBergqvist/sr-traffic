@@ -8,11 +8,20 @@ import { LoggingService } from 'src/app/services/logging.service';
 import { MessageBrokerService } from 'src/app/services/message-broker.service';
 import { Category, SubCategory, TrafficService } from 'src/app/services/traffic.service';
 import { TrafficMessageViewModel } from 'src/app/view-models/traffic-message-vm';
+import { LocalStorageService } from 'src/app/services/local-storage.service';
 
 enum SortOrder {
     highestPriority = '1',
     leastDistance = '2',
     latestDate = '3'
+}
+
+class AppSettings {
+    includeCategoryOther: boolean;
+    showTodayOnly: boolean;
+    showPublicTransportOnly: boolean;
+    showTrafficIncidentsOnly: boolean;
+    includeSubcategoryRoadwork: boolean;
 }
 
 @Component({
@@ -21,12 +30,18 @@ enum SortOrder {
     styleUrls: ['./traffic-messages.component.scss']
 })
 export class TrafficMessagesComponent implements OnInit {
+    settings: AppSettings = {
+        includeCategoryOther: false,
+        showTodayOnly: false,
+        showPublicTransportOnly: false,
+        showTrafficIncidentsOnly: false,
+        includeSubcategoryRoadwork: true
+    };
+
     sortOrder: SortOrder = SortOrder.highestPriority;
-    includeCategoryOther = false;
-    showTodayOnly = false;
-    showPublicTransportOnly = false;
-    showTrafficIncidentsOnly = false;
-    includeSubcategoryRoadwork = true;
+    selectedArea: number;
+
+    private readonly AppSettingsKey = 'srtrafficsettings';
 
     isLoading = false;
 
@@ -40,7 +55,6 @@ export class TrafficMessagesComponent implements OnInit {
     messages: TrafficMessageViewModel[];
 
     areaOptions: SelectItem[];
-    selectedArea: number;
 
     keyword = '';
 
@@ -50,10 +64,18 @@ export class TrafficMessagesComponent implements OnInit {
     constructor(
         private readonly broker: MessageBrokerService,
         private readonly service: TrafficService,
-        private readonly logger: LoggingService
+        private readonly logger: LoggingService,
+        private readonly localStorageService: LocalStorageService
     ) {}
 
     async ngOnInit() {
+        const settings = this.localStorageService.get<AppSettings>(this.AppSettingsKey);
+        if (settings) {
+            this.settings = settings;
+        } else {
+            this.logger.logInfo('No previous settings found');
+        }
+
         await this.fillTrafficAreaDropDown();
     }
 
@@ -67,8 +89,8 @@ export class TrafficMessagesComponent implements OnInit {
                 this.position.lat = position.coords.latitude;
                 this.position.lng = position.coords.longitude;
                 this.trafficArea = await this.service.fetchClosestTrafficAreaForPosition(this.position);
-                await this.fetchMessages();
                 this.selectedArea = this.trafficArea.trafficdepartmentunitid;
+                await this.fetchMessages();
             },
             (error) => {
                 this.broker.sendMessage(new ErrorOccurredMessage(error.message));
@@ -135,27 +157,27 @@ export class TrafficMessagesComponent implements OnInit {
 
     matchesFilter(message: TrafficMessageViewModel) {
         if (message.subCategory !== SubCategory.TrafikOlycka) {
-            if (this.showTrafficIncidentsOnly) {
+            if (this.settings.showTrafficIncidentsOnly) {
                 return false;
             }
         }
         if (message.subCategory === SubCategory.Vägarbete) {
-            if (!this.includeSubcategoryRoadwork) {
+            if (!this.settings.includeSubcategoryRoadwork) {
                 return false;
             }
         }
         if (message.category === Category.Övrigt) {
-            if (!this.includeCategoryOther) {
+            if (!this.settings.includeCategoryOther) {
                 return false;
             }
         }
         const now = new Date().getDate();
         if (message.createdDate.getDate() !== now) {
-            if (this.showTodayOnly) {
+            if (this.settings.showTodayOnly) {
                 return false;
             }
         }
-        if (this.showPublicTransportOnly && message.category !== Category.Kollektivtrafik) {
+        if (this.settings.showPublicTransportOnly && message.category !== Category.Kollektivtrafik) {
             return false;
         }
         return true;
@@ -165,6 +187,10 @@ export class TrafficMessagesComponent implements OnInit {
         if (!this.messages || this.messages.length < 1) return false;
         const messages = this.messages.filter((m) => this.matchesFilter(m) && this.matchesKeyword(m));
         return messages.length > 0;
+    }
+
+    onCheckChanged() {
+        this.localStorageService.set(this.AppSettingsKey, this.settings);
     }
 
     private async fillTrafficAreaDropDown() {

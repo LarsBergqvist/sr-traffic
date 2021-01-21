@@ -1,4 +1,5 @@
 <div>
+    <div class="headline">Trafikinformation från SR</div>
     <div class="controls-container">
         <table class="pos-btn table-ctn">
             <tr>
@@ -80,22 +81,27 @@
                         Filtrering
                     </div>
                     <div class="p-field-checkbox">
-                        <p-checkbox [(ngModel)]="includeCategoryOther" binary="true" label="Visa kategori 'Övrigt'">
+                        <p-checkbox (onChange)="onCheckChanged()" [(ngModel)]="settings.includeCategoryOther"
+                            binary="true" label="Visa kategori 'Övrigt'">
                         </p-checkbox>
                     </div>
                     <div class="p-field-checkbox">
-                        <p-checkbox [(ngModel)]="includeSubcategoryRoadwork" binary="true" label="Visa vägarbeten">
+                        <p-checkbox (onChange)="onCheckChanged()" [(ngModel)]="settings.includeSubcategoryRoadwork"
+                            binary="true" label="Visa vägarbeten">
                         </p-checkbox>
                     </div>
                     <div class="p-field-checkbox">
-                        <p-checkbox [(ngModel)]="showTodayOnly" binary="true" label="Endast idag"></p-checkbox>
+                        <p-checkbox (onChange)="onCheckChanged()" [(ngModel)]="settings.showTodayOnly" binary="true"
+                            label="Endast idag"></p-checkbox>
                     </div>
                     <div class="p-field-checkbox">
-                        <p-checkbox [(ngModel)]="showTrafficIncidentsOnly" binary="true" label="Endast olyckor">
+                        <p-checkbox (onChange)="onCheckChanged()" [(ngModel)]="settings.showTrafficIncidentsOnly"
+                            binary="true" label="Endast olyckor">
                         </p-checkbox>
                     </div>
                     <div class="p-field-checkbox">
-                        <p-checkbox [(ngModel)]="showPublicTransportOnly" binary="true" label="Endast kollektivtrafik">
+                        <p-checkbox (onChange)="onCheckChanged()" [(ngModel)]="settings.showPublicTransportOnly"
+                            binary="true" label="Endast kollektivtrafik">
                         </p-checkbox>
                     </div>
                 </div>
