@@ -1,3 +1,4 @@
+@use './base.scss';
 @import '../node_modules/primeicons/primeicons.css';
 @import '../node_modules/primeng/resources/themes/rhea/theme.css';
 @import '../node_modules/primeng/resources/primeng.min.css';
@@ -7,8 +8,12 @@
     font-family: 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
-.p-dropdown {
-    max-width: 128px;
+@media only screen and (min-width: 800px) {
+    body {
+        max-width: 75%;
+        margin: 0 auto !important;
+        float: none !important;
+    }
 }
 
 .clickable {
@@ -46,15 +51,31 @@
     clear: both;
 }
 
-$ctlwidth: 200px;
-
 .p-button-icon {
     font-size: 2rem;
 }
 .sr-button.p-button {
-    width: $ctlwidth;
+    width: 100%;
     border-radius: 10px;
+    max-width: 100%;
+    margin-left: base.$marginlr;
+    margin-right: base.$marginlr;
 }
+.sr-button-wide.p-button {
+    width: 100%;
+    border-radius: 10px;
+    max-width: base.$ctlwidth-wide;
+    margin-left: base.$marginlr;
+    margin-right: base.$marginlr;
+}
+
 .p-dropdown {
-    min-width: $ctlwidth;
+    max-width: base.$ctlwidth-wide;
+    min-width: base.$ctlwidth;
+    width: 100%;
+    margin-left: 8px;
+    margin-right: -18px;
+}
+.center {
+    margin: auto;
 }

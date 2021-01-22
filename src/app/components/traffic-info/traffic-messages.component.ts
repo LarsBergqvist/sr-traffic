@@ -17,7 +17,6 @@ enum SortOrder {
 }
 
 class AppSettings {
-    includeCategoryOther: boolean;
     showTodayOnly: boolean;
     showPublicTransportOnly: boolean;
     showTrafficIncidentsOnly: boolean;
@@ -31,11 +30,10 @@ class AppSettings {
 })
 export class TrafficMessagesComponent implements OnInit {
     settings: AppSettings = {
-        includeCategoryOther: false,
-        showTodayOnly: false,
+        showTodayOnly: true,
         showPublicTransportOnly: false,
         showTrafficIncidentsOnly: false,
-        includeSubcategoryRoadwork: true
+        includeSubcategoryRoadwork: false
     };
 
     sortOrder: SortOrder = SortOrder.highestPriority;
@@ -90,7 +88,7 @@ export class TrafficMessagesComponent implements OnInit {
                 this.position.lng = position.coords.longitude;
                 this.trafficArea = await this.service.fetchClosestTrafficAreaForPosition(this.position);
                 this.selectedArea = this.trafficArea.trafficdepartmentunitid;
-                await this.fetchMessages();
+                //                await this.fetchMessages();
             },
             (error) => {
                 this.broker.sendMessage(new ErrorOccurredMessage(error.message));
@@ -144,10 +142,10 @@ export class TrafficMessagesComponent implements OnInit {
         this.keyword = '';
         if (event.value == 0) {
             this.trafficArea = null;
-            await this.fetchMessages();
+            //            await this.fetchMessages();
         } else {
             this.trafficArea = this.getAreaFromId(event.value);
-            await this.fetchMessages();
+            //            await this.fetchMessages();
         }
     }
 
@@ -159,7 +157,19 @@ export class TrafficMessagesComponent implements OnInit {
         this.sortMessages();
     }
 
+    numFilteredMessagesInfo(): string {
+        if (!this.messages || this.messages.length < 1) return '';
+        const numMessages = this.messages.filter((m) => this.matchesFilter(m) && this.matchesKeyword(m)).length;
+        const info = numMessages === 1 ? `1 meddelande` : `${numMessages} meddelanden`;
+        return info;
+    }
+
+    onClear() {
+        this.keyword = '';
+    }
+
     matchesFilter(message: TrafficMessageViewModel) {
+        if (message.category === Category.Övrigt) return false;
         if (message.subCategory !== SubCategory.TrafikOlycka) {
             if (this.settings.showTrafficIncidentsOnly) {
                 return false;
@@ -167,11 +177,6 @@ export class TrafficMessagesComponent implements OnInit {
         }
         if (message.subCategory === SubCategory.Vägarbete) {
             if (!this.settings.includeSubcategoryRoadwork) {
-                return false;
-            }
-        }
-        if (message.category === Category.Övrigt) {
-            if (!this.settings.includeCategoryOther) {
                 return false;
             }
         }
