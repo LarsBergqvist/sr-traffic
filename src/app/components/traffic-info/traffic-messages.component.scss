@@ -19,6 +19,12 @@
     padding-bottom: 0px;
 }
 
+@media only screen and (min-width: 800px) {
+    .controls-container {
+        max-width: 800px;
+    }
+}
+
 .search-ctn,
 .showmap-ctn {
     margin-top: base.$margintop;
@@ -33,10 +39,8 @@
 
 :host::ng-deep {
     .sortfilt-ctn {
-        max-width: base.$ctlwidth-wide;
-    }
-    .sortfilt-content {
-        max-width: 300px;
+        width: 100%;
+        margin: auto;
     }
 }
 
@@ -46,9 +50,10 @@
     color: rgb(126, 126, 126);
 }
 
-.row {
-    max-width: base.$ctlwidth-wide;
+.thegrid {
+    align-items: center;
 }
+
 .clear-btn {
     border-radius: 10px;
     width: 20px;

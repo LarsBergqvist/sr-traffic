@@ -1,35 +1,31 @@
 <div>
     <div class="headline">Trafikinformation från SR</div>
     <div class="controls-container">
-        <div class="p-grid row">
-            <div class="p-col-12">
+        <div class="p-grid thegrid">
+            <div class="p-col-12 p-lg-4">
                 <button pButton class="sr-button-wide" [disabled]="isLoading" (click)="onFetchPosition()"
                     icon="pi pi-compass" iconPos="right" label="Hämta ditt närmaste område">
                 </button>
             </div>
-        </div>
-        <div class="p-grid row">
-            <div class="p-col-12 p-lg-6 center area-dd">
+            <div class="p-col-12 p-lg-4 center area-dd">
                 <p-dropdown (onChange)="onAreaChanged($event)" [disabled]="isLoading" [(ngModel)]="selectedArea"
                     [options]="areaOptions" placeholder="Välj område"></p-dropdown>
             </div>
-            <div class="p-col-12 p-lg-6">
+            <div class="p-col-12 p-lg-4">
                 <button pButton class="sr-button-wide" [disabled]="selectedArea === undefined" (click)="onRefresh()"
                     icon="pi pi-refresh" iconPos="right" label="Hämta nya meddelanden"></button>
 
             </div>
-        </div>
-        <div class="p-grid row">
-            <div class="p-col-6 center num-msg-ctn">
+            <div class="p-col-6 p-lg-6 center num-msg-ctn">
                 {{numFilteredMessagesInfo()}}
             </div>
-            <div class="p-col">
+            <div class="p-col-6 p-lg-6">
                 <button pButton class="sr-button-wide" [disabled]="isLoading || !hasMessagesToDisplay()"
                     (click)="onShowAllPositionsOnMap()" icon="pi pi-globe" iconPos="right"
                     label="Visa alla på kartan"></button>
             </div>
-        </div>
-        <div class="row" *ngIf="(!messages || messages.length === 0) else sortfilt">
+            <div class="p-col-12 p-lg-12" *ngIf="(!messages || messages.length === 0) else sortfilt">
+            </div>
         </div>
     </div>
     <div *ngIf="messages">
@@ -42,7 +38,7 @@
 </div>
 
 <ng-template #sortfilt>
-    <div class="sortfilt-ctn row">
+    <div class="sortfilt-ctn">
         <p-accordion>
             <p-accordionTab header="Sortering & filtrering">
                 <div class="search-ctn">
