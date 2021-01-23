@@ -14,8 +14,8 @@
             <div *ngIf="message.distance">
                 Avstånd: <span class="dist-info">{{message.distance}} km</span>
             </div>
-            <div class="date-info">
-                {{message.createdDate | date:'d MMM HH:mm'}}
+            <div>
+                Publiserad: <span class="date-info">{{message.createdDate | date:'d MMM HH:mm'}}</span>
             </div>
         </div>
         <div class="p-col-4" *ngIf="showMapLink">
