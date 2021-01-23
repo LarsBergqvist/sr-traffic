@@ -12,7 +12,6 @@
     body {
         max-width: 75%;
         margin: 0 auto !important;
-        float: none !important;
     }
 }
 
@@ -52,7 +51,7 @@
 }
 
 .p-button-icon {
-    font-size: 2rem;
+    font-size: 1.5rem;
 }
 .sr-button.p-button {
     width: 100%;
@@ -74,7 +73,7 @@
     min-width: base.$ctlwidth;
     width: 100%;
     margin-left: 8px;
-    margin-right: -18px;
+    margin-right: -8px;
 }
 .center {
     margin: auto;

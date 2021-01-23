@@ -88,7 +88,7 @@ export class TrafficMessagesComponent implements OnInit {
                 this.position.lng = position.coords.longitude;
                 this.trafficArea = await this.service.fetchClosestTrafficAreaForPosition(this.position);
                 this.selectedArea = this.trafficArea.trafficdepartmentunitid;
-                //                await this.fetchMessages();
+                await this.fetchMessages();
             },
             (error) => {
                 this.broker.sendMessage(new ErrorOccurredMessage(error.message));
@@ -142,10 +142,10 @@ export class TrafficMessagesComponent implements OnInit {
         this.keyword = '';
         if (event.value == 0) {
             this.trafficArea = null;
-            //            await this.fetchMessages();
+            await this.fetchMessages();
         } else {
             this.trafficArea = this.getAreaFromId(event.value);
-            //            await this.fetchMessages();
+            await this.fetchMessages();
         }
     }
 
@@ -160,7 +160,8 @@ export class TrafficMessagesComponent implements OnInit {
     numFilteredMessagesInfo(): string {
         if (!this.messages || this.messages.length < 1) return '';
         const numMessages = this.messages.filter((m) => this.matchesFilter(m) && this.matchesKeyword(m)).length;
-        const info = numMessages === 1 ? `1 meddelande` : `${numMessages} meddelanden`;
+        const numStr = numMessages === 0 ? 'Inga' : `${numMessages}`;
+        const info = numMessages === 1 ? `1 meddelande` : `${numStr} meddelanden`;
         return info;
     }
 

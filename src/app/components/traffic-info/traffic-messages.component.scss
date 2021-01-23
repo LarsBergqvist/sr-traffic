@@ -16,7 +16,7 @@
     margin-left: auto;
     margin-right: auto;
     max-width: 400px;
-    padding-bottom: 20px;
+    padding-bottom: 0px;
 }
 
 .search-ctn,
@@ -33,7 +33,6 @@
 
 :host::ng-deep {
     .sortfilt-ctn {
-        margin-top: base.$margintop;
         max-width: base.$ctlwidth-wide;
     }
     .sortfilt-content {
@@ -53,4 +52,12 @@
 .clear-btn {
     border-radius: 10px;
     width: 20px;
+}
+.num-msg-ctn {
+    margin-left: 16px;
+    margin-right: -16px;
+}
+.area-dd {
+    padding-right: 10px;
+    padding-left: 6px;
 }

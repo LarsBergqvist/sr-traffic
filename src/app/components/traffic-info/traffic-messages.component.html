@@ -9,18 +9,18 @@
             </div>
         </div>
         <div class="p-grid row">
-            <div class="p-col-12 p-lg-6 center">
+            <div class="p-col-12 p-lg-6 center area-dd">
                 <p-dropdown (onChange)="onAreaChanged($event)" [disabled]="isLoading" [(ngModel)]="selectedArea"
                     [options]="areaOptions" placeholder="Välj område"></p-dropdown>
             </div>
             <div class="p-col-12 p-lg-6">
                 <button pButton class="sr-button-wide" [disabled]="selectedArea === undefined" (click)="onRefresh()"
-                    icon="pi pi-download" iconPos="right" label="Hämta meddelanden"></button>
+                    icon="pi pi-refresh" iconPos="right" label="Hämta nya meddelanden"></button>
 
             </div>
         </div>
         <div class="p-grid row">
-            <div class="p-col-6 center">
+            <div class="p-col-6 center num-msg-ctn">
                 {{numFilteredMessagesInfo()}}
             </div>
             <div class="p-col">
