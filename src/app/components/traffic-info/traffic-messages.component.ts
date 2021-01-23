@@ -30,7 +30,7 @@ class AppSettings {
 })
 export class TrafficMessagesComponent implements OnInit {
     settings: AppSettings = {
-        showTodayOnly: true,
+        showTodayOnly: false,
         showPublicTransportOnly: false,
         showTrafficIncidentsOnly: false,
         includeSubcategoryRoadwork: false
