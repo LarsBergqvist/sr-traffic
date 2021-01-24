@@ -1,17 +1,17 @@
-<div>
+<div class="outer">
     <div class="headline">Trafikinformation från SR</div>
     <div class="controls-container">
         <div class="p-grid thegrid">
-            <div class="p-col-12 p-lg-4">
+            <div class="p-col-12 p-md-6 p-lg-4">
                 <button pButton class="sr-button-wide" [disabled]="isLoading" (click)="onFetchPosition()"
                     icon="pi pi-compass" iconPos="right" label="Hämta ditt närmaste område">
                 </button>
             </div>
-            <div class="p-col-12 p-lg-4 center area-dd">
+            <div class="p-col-12 p-md-6 p-lg-4 center area-dd">
                 <p-dropdown (onChange)="onAreaChanged($event)" [disabled]="isLoading" [(ngModel)]="selectedArea"
                     [options]="areaOptions" placeholder="Välj område"></p-dropdown>
             </div>
-            <div class="p-col-12 p-lg-4">
+            <div class="p-col-12 p-md-12 p-lg-4">
                 <button pButton class="sr-button-wide" [disabled]="selectedArea === undefined" (click)="onRefresh()"
                     icon="pi pi-refresh" iconPos="right" label="Hämta nya meddelanden"></button>
 

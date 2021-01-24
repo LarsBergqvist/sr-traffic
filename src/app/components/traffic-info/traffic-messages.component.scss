@@ -15,17 +15,16 @@
     width: 100%;
     margin-left: auto;
     margin-right: auto;
-    max-width: 400px;
+    max-width: base.$ctlwidth-wide;
     padding-bottom: 0px;
 }
 
 @media only screen and (min-width: 800px) {
     .controls-container {
-        max-width: 800px;
+        max-width: 2 * base.$ctlwidth-wide;
     }
 }
 
-.search-ctn,
 .showmap-ctn {
     margin-top: base.$margintop;
     width: base.$ctlwidth-wide;
@@ -41,6 +40,7 @@
     .sortfilt-ctn {
         width: 100%;
         margin: auto;
+        margin-left: 4px;
     }
 }
 
@@ -65,4 +65,7 @@
 .area-dd {
     padding-right: 10px;
     padding-left: 6px;
+}
+.outer {
+    margin-right: 8px;
 }
