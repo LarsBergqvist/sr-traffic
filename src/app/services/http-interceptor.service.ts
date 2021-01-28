@@ -13,7 +13,7 @@ function delayedRetry(delayMs: number, maxRetries: number) {
             retryWhen((errors: Observable<any>) =>
                 errors.pipe(
                     delay(delayMs),
-                    mergeMap((error) => (retries-- > 0 ? of(error) : throwError('max retries')))
+                    mergeMap((error) => (retries-- > 0 ? of(error) : throwError('Network problem, try again.')))
                 )
             )
         );
@@ -33,9 +33,9 @@ export class HttpInterceptorService implements HttpInterceptor {
     }
 
     private handleError(error: HttpErrorResponse, messageService: MessageBrokerService) {
-        if (error && typeof error.error === 'string') {
-            this.logging.logError('err: ' + error.error);
-            messageService.sendMessage(new ErrorOccurredMessage(error.error));
+        if (error && typeof error === 'string') {
+            this.logging.logError('err: ' + error);
+            messageService.sendMessage(new ErrorOccurredMessage(error));
         } else if (error) {
             if (error.status === 0) {
                 this.logging.logError('Connection error.');
