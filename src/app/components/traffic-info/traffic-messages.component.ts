@@ -9,6 +9,7 @@ import { MessageBrokerService } from 'src/app/services/message-broker.service';
 import { Category, SubCategory, TrafficService } from 'src/app/services/traffic.service';
 import { TrafficMessageViewModel } from 'src/app/view-models/traffic-message-vm';
 import { LocalStorageService } from 'src/app/services/local-storage.service';
+import { calcDistanceKm } from 'src/app/utils/distance-helper';
 
 enum SortOrder {
     highestPriority = '1',
@@ -21,6 +22,7 @@ class AppSettings {
     showPublicTransportOnly: boolean;
     showTrafficIncidentsOnly: boolean;
     includeSubcategoryRoadwork: boolean;
+    showRoadTrafficOnly: boolean;
 }
 
 @Component({
@@ -31,6 +33,7 @@ class AppSettings {
 export class TrafficMessagesComponent implements OnInit {
     settings: AppSettings = {
         showTodayOnly: false,
+        showRoadTrafficOnly: false,
         showPublicTransportOnly: false,
         showTrafficIncidentsOnly: false,
         includeSubcategoryRoadwork: false
@@ -40,8 +43,10 @@ export class TrafficMessagesComponent implements OnInit {
     selectedArea: number;
 
     private readonly AppSettingsKey = 'srtrafficsettings';
+    private readonly radiusKm = 100;
 
     isLoading = false;
+    showOnlyWithinRadius = false;
 
     position: GeoPosition = {
         lng: undefined,
@@ -171,6 +176,11 @@ export class TrafficMessagesComponent implements OnInit {
 
     matchesFilter(message: TrafficMessageViewModel) {
         if (message.category === Category.Övrigt) return false;
+
+        if (message.category !== Category.Vägtrafik && this.settings.showRoadTrafficOnly) {
+            return false;
+        }
+
         if (message.subCategory !== SubCategory.TrafikOlycka) {
             if (this.settings.showTrafficIncidentsOnly) {
                 return false;
@@ -189,6 +199,18 @@ export class TrafficMessagesComponent implements OnInit {
         }
         if (this.settings.showPublicTransportOnly && message.category !== Category.Kollektivtrafik) {
             return false;
+        }
+
+        if (this.showOnlyWithinRadius && this.position && this.position.lat && this.position.lng) {
+            const distanceKm = calcDistanceKm(
+                this.position.lat,
+                this.position.lng,
+                message.latitude,
+                message.longitude
+            );
+            if (distanceKm > this.radiusKm) {
+                return false;
+            }
         }
         return true;
     }

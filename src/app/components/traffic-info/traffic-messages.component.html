@@ -94,6 +94,16 @@
                                 binary="true" label="Endast kollektivtrafik">
                             </p-checkbox>
                         </div>
+                        <div class="p-field-checkbox">
+                            <p-checkbox (onChange)="onCheckChanged()" [(ngModel)]="settings.showRoadTrafficOnly"
+                                binary="true" label="Visa endast vägtrafik">
+                            </p-checkbox>
+                        </div>
+                        <div class="p-field-checkbox">
+                            <p-checkbox (onChange)="onCheckChanged()" [(ngModel)]="showOnlyWithinRadius" binary="true"
+                                label="Inom 100km radie" [disabled]="!position.lat">
+                            </p-checkbox>
+                        </div>
                     </div>
                 </div>
             </p-accordionTab>
