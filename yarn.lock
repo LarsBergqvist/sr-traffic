@@ -6843,10 +6843,10 @@ primeicons@^4.1.0:
   resolved "https://registry.yarnpkg.com/primeicons/-/primeicons-4.1.0.tgz#19eaef8ef5594b0006358ae64e738d03e167c9bb"
   integrity sha512-uEv2pSPk1zQCfaB2VgnUfnUxxlGryYi+5rbdxmZBBt5v9S/pscIQYS5YDLxsQZ7D9jn5c76+Tx5wX/2J1nK6sA==
 
-primeng@^11.0.0:
-  version "11.0.0"
-  resolved "https://registry.yarnpkg.com/primeng/-/primeng-11.0.0.tgz#f6f8019602fa13c14041d4f2d4bba931587e0cbf"
-  integrity sha512-nGpc2muqjJpk//pympFjYtqWbcHNb37cOtL3p0NnxR/9afL5qSCuQ+RiQg8Q/e0RCtZsZoBsWp4VPngpw5DJng==
+primeng@^11.2.3:
+  version "11.4.0"
+  resolved "https://registry.yarnpkg.com/primeng/-/primeng-11.4.0.tgz#f93450d131f481e09136493d9921b9cbc3a0108b"
+  integrity sha512-sYhZ79Dn0t2Nzp+ZmnoUum+1DkukuM/wHTqxambiJalkVANqTv5vJwzuqvgVJrcjTOMxpJ86kC/x7fOq9UeF/Q==
   dependencies:
     tslib "^2.0.0"
 
