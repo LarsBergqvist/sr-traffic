@@ -4,7 +4,7 @@
     "scripts": {
         "ng": "ng",
         "start": "ng serve",
-        "startSSL": "ng serve --host=0.0.0.0 --port=4300 --ssl --ssl-key \".\\certificates/localhost.key\"  --ssl-cert \".\\certificates/localhost.crt\"",
+        "startSSL": "ng serve --host=0.0.0.0 --port=4300 --ssl --ssl-key certificates/localhost.key  --ssl-cert certificates/localhost.crt",
         "build": "ng build --prod",
         "test": "ng test",
         "lint": "ng lint",
