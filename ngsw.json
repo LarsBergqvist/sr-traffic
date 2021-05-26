@@ -1,0 +1,103 @@
+{
+  "configVersion": 1,
+  "timestamp": 1622000713396,
+  "index": "/sr-traffic/index.html",
+  "assetGroups": [
+    {
+      "name": "app",
+      "installMode": "prefetch",
+      "updateMode": "prefetch",
+      "cacheQueryOptions": {
+        "ignoreVary": true
+      },
+      "urls": [
+        "/sr-traffic/favicon.ico",
+        "/sr-traffic/index.html",
+        "/sr-traffic/main-es2015.63c023f3b3989c3313e3.js",
+        "/sr-traffic/main-es5.63c023f3b3989c3313e3.js",
+        "/sr-traffic/manifest.webmanifest",
+        "/sr-traffic/polyfills-es2015.307432269431662cdf29.js",
+        "/sr-traffic/polyfills-es5.7f081c833ec72f1632e0.js",
+        "/sr-traffic/runtime-es2015.a4dadbc03350107420a4.js",
+        "/sr-traffic/runtime-es5.a4dadbc03350107420a4.js",
+        "/sr-traffic/styles.28fb9cf2882db6c61a28.css"
+      ],
+      "patterns": []
+    },
+    {
+      "name": "assets",
+      "installMode": "lazy",
+      "updateMode": "prefetch",
+      "cacheQueryOptions": {
+        "ignoreVary": true
+      },
+      "urls": [
+        "/sr-traffic/assets/icons/ios-icon-128x128.png",
+        "/sr-traffic/assets/icons/ios-icon-144x144.png",
+        "/sr-traffic/assets/icons/ios-icon-192x192.png",
+        "/sr-traffic/assets/icons/ios-icon-384x384.png",
+        "/sr-traffic/assets/icons/ios-icon-512x512.png",
+        "/sr-traffic/assets/icons/ios-icon-72x72.png",
+        "/sr-traffic/assets/icons/ios-icon-96x96.png",
+        "/sr-traffic/assets/marker.png",
+        "/sr-traffic/assets/marker_blue.png",
+        "/sr-traffic/assets/user.png",
+        "/sr-traffic/color.6441e63a57ccc5105bad.png",
+        "/sr-traffic/hue.f8505bd4d6f3e3aa435b.png",
+        "/sr-traffic/primeicons.3a0d4a58da62cf7c55bb.ttf",
+        "/sr-traffic/primeicons.c55d94a248721abbd220.svg",
+        "/sr-traffic/primeicons.dfbfef2de4bfb34e9722.eot",
+        "/sr-traffic/primeicons.e61f3495a7ecd3d571a4.woff"
+      ],
+      "patterns": []
+    }
+  ],
+  "dataGroups": [],
+  "hashTable": {
+    "/sr-traffic/assets/icons/ios-icon-128x128.png": "2d071d34f55e34a0c84d4be47295a130206b3bb5",
+    "/sr-traffic/assets/icons/ios-icon-144x144.png": "df8290726085ac86b2f854fe6fc793b082e273c1",
+    "/sr-traffic/assets/icons/ios-icon-192x192.png": "47460b16815a97b7bedba04396138f89d2fedee7",
+    "/sr-traffic/assets/icons/ios-icon-384x384.png": "aa0cfe65d7df728c3562f846ae19ed5ff710ad8b",
+    "/sr-traffic/assets/icons/ios-icon-512x512.png": "5a90f7b5949115458f2ebe6f2ee25ff51b54c427",
+    "/sr-traffic/assets/icons/ios-icon-72x72.png": "64bbad6fd13511fb95a24548cac7495bc1501745",
+    "/sr-traffic/assets/icons/ios-icon-96x96.png": "15eb36fac53ccca14e96180eb2f3363376183386",
+    "/sr-traffic/assets/marker.png": "9b9b8309af8b150cc632a2316c9182a8856ec98e",
+    "/sr-traffic/assets/marker_blue.png": "d037573af2e756305b831b4d62c094aa38cddece",
+    "/sr-traffic/assets/user.png": "82fae2c01642184e680e2e0229f3969da1cdfea2",
+    "/sr-traffic/color.6441e63a57ccc5105bad.png": "ff4c4bcb2207891b292f544edb4da9d2df5d45cf",
+    "/sr-traffic/favicon.ico": "e2bc4043acada63d7ad28b5a869d1357222b6cd3",
+    "/sr-traffic/hue.f8505bd4d6f3e3aa435b.png": "f81ae627637a684614aa726e206c73ce099a01fd",
+    "/sr-traffic/index.html": "224c2ff8bc74003f12380eda6b824e17e69460dc",
+    "/sr-traffic/main-es2015.63c023f3b3989c3313e3.js": "8070a0923efd083417c61e03d3078a248d0ea2f1",
+    "/sr-traffic/main-es5.63c023f3b3989c3313e3.js": "a40ae24b0cc07159386dbd8a37d98ce21865a22f",
+    "/sr-traffic/manifest.webmanifest": "3ab786464167e6b0b33f796f2801949ffe43d169",
+    "/sr-traffic/polyfills-es2015.307432269431662cdf29.js": "d373e0370dbfe91a44282ee31ce09348187b2fc2",
+    "/sr-traffic/polyfills-es5.7f081c833ec72f1632e0.js": "ec2bcdff449d16fa1df7bbf93b08146577d261ce",
+    "/sr-traffic/primeicons.3a0d4a58da62cf7c55bb.ttf": "13889b5e1915891dd548d6b71c1cccddb469e13d",
+    "/sr-traffic/primeicons.c55d94a248721abbd220.svg": "4a2c5258656a8b900ddeabf5ac62aace724f5a0d",
+    "/sr-traffic/primeicons.dfbfef2de4bfb34e9722.eot": "6441e65a2458d0c813cd2bf6e8648c1f54327bdb",
+    "/sr-traffic/primeicons.e61f3495a7ecd3d571a4.woff": "d65c561bf2d7b6707c3912d8987273a9c715b7f2",
+    "/sr-traffic/runtime-es2015.a4dadbc03350107420a4.js": "a9aafcf49f49145093fc831efd9b8e2f6c71bb9c",
+    "/sr-traffic/runtime-es5.a4dadbc03350107420a4.js": "a9aafcf49f49145093fc831efd9b8e2f6c71bb9c",
+    "/sr-traffic/styles.28fb9cf2882db6c61a28.css": "d650f8fb88a606804bc0d5126d9c5742e2b63664"
+  },
+  "navigationUrls": [
+    {
+      "positive": true,
+      "regex": "^\\/.*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^/]*\\.[^/]*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^/]*__[^/]*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^/]*__[^/]*\\/.*$"
+    }
+  ],
+  "navigationRequestStrategy": "performance"
+}
