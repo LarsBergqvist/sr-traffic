@@ -22,6 +22,6 @@ https://localhost:4300/
 
 # Screenshots
 
-![Alt text](https://github.com/LarsBergqvist/sr-traffic/blob/main/screenshot1.png?raw=true 'Traffic messages list')  
-![Alt text](https://github.com/LarsBergqvist/sr-traffic/blob/main/screenshot2.png?raw=true 'Map sidebar 1')  
-![Alt text](https://github.com/LarsBergqvist/sr-traffic/blob/main/screenshot3.jpg?raw=true 'Map sidebar 2')  
+![Alt text](https://github.com/LarsBergqvist/sr-traffic/blob/main/screenshot1.png?raw=true 'Traffic messages list')
+![Alt text](https://github.com/LarsBergqvist/sr-traffic/blob/main/screenshot2.png?raw=true 'Map sidebar 1') 
+![Alt text](https://github.com/LarsBergqvist/sr-traffic/blob/main/screenshot3.jpg?raw=true 'Map sidebar 2')
