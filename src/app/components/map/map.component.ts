@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, EventEmitter, Input, Output } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, OnDestroy, Output } from '@angular/core';
 import { Attribution, defaults as defaultControls } from 'ol/control';
 import Feature from 'ol/Feature';
 import Point from 'ol/geom/Point';
@@ -8,20 +8,19 @@ import { fromLonLat } from 'ol/proj.js';
 import OSM from 'ol/source/OSM';
 import Vector from 'ol/source/Vector';
 import View from 'ol/View';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+import { MapInput } from 'src/app/models/map-input';
+import { MapDataService } from 'src/app/services/map-data.service';
 import { GeoPosition } from 'src/app/view-models/geo-position';
 import { setupMarkerClickHandler, styleMarker, styleUser } from './map-functions';
-
-export class MapInput {
-    markerPosisitons: GeoPosition[];
-    userPos: GeoPosition;
-}
 
 @Component({
     selector: 'app-map',
     templateUrl: './map.component.html',
     styleUrls: ['./map.component.scss']
 })
-export class MapComponent implements AfterViewInit {
+export class MapComponent implements AfterViewInit, OnDestroy {
     map: Map;
 
     private static readonly MaxNumMarkers = 200;
@@ -31,32 +30,32 @@ export class MapComponent implements AfterViewInit {
     private userMarker: Feature;
     private positions: GeoPosition[];
     private userPos: GeoPosition;
+    private unsubscribe$ = new Subject();
 
-    mapInput: MapInput;
-    viewIsInitialized = false;
+    constructor(private readonly mapDataService: MapDataService) {}
+
     ngAfterViewInit(): void {
-        if (this.mapInput) {
-            this.setupMap(this.mapInput);
+        if (!this.map) {
+            this.initilizeMap();
         }
-        this.viewIsInitialized = true;
+
+        this.mapDataService.mapInput$.pipe(takeUntil(this.unsubscribe$)).subscribe((value: MapInput) => {
+            if (value) {
+                this.setupMap(value);
+            }
+        });
     }
 
-    @Input('mapInput') set setInputData(input: MapInput) {
-        if (!input) return;
-        this.mapInput = input;
-        if (this.viewIsInitialized) {
-            this.setupMap(input);
-        }
+    ngOnDestroy() {
+        this.unsubscribe$.next();
+        this.unsubscribe$.complete();
     }
+
     @Output() onMarkerClicked = new EventEmitter<number>();
 
     private setupMap(input: MapInput) {
         this.positions = input.markerPosisitons;
         this.userPos = input.userPos;
-
-        if (!this.map) {
-            this.initilizeMap();
-        }
 
         const view = this.map.getView();
         if (this.positions.length > 0) {

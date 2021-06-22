@@ -3,8 +3,9 @@ import { Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
 import { ShowInfoSidebarMessage } from 'src/app/messages/show-info-sidebar.message';
 import { ShowMapMessage } from 'src/app/messages/show-map.message';
+import { MapInput } from 'src/app/models/map-input';
+import { MapDataService } from 'src/app/services/map-data.service';
 import { MessageBrokerService } from 'src/app/services/message-broker.service';
-import { MapInput } from './map.component';
 
 @Component({
     selector: 'app-map-sidebar',
@@ -15,9 +16,8 @@ export class MapSidebarComponent implements OnInit, OnDestroy {
     title: string;
     details: string;
     isVisible = false;
-    mapInput: MapInput = null;
 
-    constructor(private readonly broker: MessageBrokerService) {}
+    constructor(private readonly broker: MessageBrokerService, private readonly mapDataService: MapDataService) {}
 
     ngOnInit() {
         this.broker
@@ -30,10 +30,10 @@ export class MapSidebarComponent implements OnInit, OnDestroy {
                 const input = new MapInput();
                 input.markerPosisitons = message.positions;
                 input.userPos = message.userPos;
-                this.mapInput = input;
                 this.title = message.title;
                 this.details = message.details;
                 this.isVisible = true;
+                this.mapDataService.addNewMapInput(input);
             });
     }
 

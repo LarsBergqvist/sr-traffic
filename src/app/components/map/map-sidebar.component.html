@@ -1,4 +1,4 @@
-<p-sidebar *ngIf="mapInput" [(visible)]="isVisible" position="right" styleClass="sr-sidebar" [showCloseIcon]="false">
+<p-sidebar *ngIf="isVisible" [(visible)]="isVisible" position="right" styleClass="sr-sidebar" [showCloseIcon]="false">
 
     <div class="details-header-text">
         <i (click)="close()" class="pi pi-chevron-left close-button clickable"></i>
@@ -10,6 +10,6 @@
         </div>
     </div>
     <hr>
-    <app-map [mapInput]="mapInput" (onMarkerClicked)="onMapMarkerClicked($event)"></app-map>
+    <app-map (onMarkerClicked)="onMapMarkerClicked($event)"></app-map>
 </p-sidebar>
 <app-info-sidebar></app-info-sidebar>
