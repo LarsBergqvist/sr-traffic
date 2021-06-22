@@ -6945,12 +6945,12 @@ primeicons@^4.1.0:
   resolved "https://registry.yarnpkg.com/primeicons/-/primeicons-4.1.0.tgz#19eaef8ef5594b0006358ae64e738d03e167c9bb"
   integrity sha512-uEv2pSPk1zQCfaB2VgnUfnUxxlGryYi+5rbdxmZBBt5v9S/pscIQYS5YDLxsQZ7D9jn5c76+Tx5wX/2J1nK6sA==
 
-primeng@^11.2.3:
-  version "11.4.0"
-  resolved "https://registry.yarnpkg.com/primeng/-/primeng-11.4.0.tgz#f93450d131f481e09136493d9921b9cbc3a0108b"
-  integrity sha512-sYhZ79Dn0t2Nzp+ZmnoUum+1DkukuM/wHTqxambiJalkVANqTv5vJwzuqvgVJrcjTOMxpJ86kC/x7fOq9UeF/Q==
+primeng@^12.0.0:
+  version "12.0.0"
+  resolved "https://registry.yarnpkg.com/primeng/-/primeng-12.0.0.tgz#b660d45ebd522e2be4e431a35975e3795ac4e75c"
+  integrity sha512-t+kaBKXyeYObbYBe4V+59unfkJrpp6dTYnFP351VBxGRD0bQZd2xITrfoGPoGElxTKEUSfnrCpsFWRL6d3Wmfg==
   dependencies:
-    tslib "^2.0.0"
+    tslib "^2.1.0"
 
 process-nextick-args@~2.0.0:
   version "2.0.1"
@@ -8340,7 +8340,7 @@ tslib@^2.0.0:
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-2.0.3.tgz#8e0741ac45fc0c226e58a17bfc3e64b9bc6ca61c"
   integrity sha512-uZtkfKblCEQtZKBF6EBXVZeQNl82yqtDQdv+eck8u7tdPxjLu2/lp5/uPW+um2tpuxINHWy3GhiccY7QgEaVHQ==
 
-tslib@^2.1.0:
+tslib@^2.1.0, tslib@^2.3.0:
   version "2.3.0"
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-2.3.0.tgz#803b8cdab3e12ba581a4ca41c8839bbb0dacb09e"
   integrity sha512-N82ooyxVNm6h1riLCoyS9e3fuJ3AMG2zIZs2Gd1ATcSFjSA23Q0fzjjZeh0jbJvWVDZ0cJT8yaNNaaXHzueNjg==

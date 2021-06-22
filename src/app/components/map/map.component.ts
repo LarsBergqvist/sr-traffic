@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, Input, Output } from '@angular/core';
 import { Attribution, defaults as defaultControls } from 'ol/control';
 import Feature from 'ol/Feature';
 import Point from 'ol/geom/Point';
@@ -21,7 +21,7 @@ export class MapInput {
     templateUrl: './map.component.html',
     styleUrls: ['./map.component.scss']
 })
-export class MapComponent {
+export class MapComponent implements AfterViewInit {
     map: Map;
 
     private static readonly MaxNumMarkers = 200;
@@ -32,9 +32,21 @@ export class MapComponent {
     private positions: GeoPosition[];
     private userPos: GeoPosition;
 
+    mapInput: MapInput;
+    viewIsInitialized = false;
+    ngAfterViewInit(): void {
+        if (this.mapInput) {
+            this.setupMap(this.mapInput);
+        }
+        this.viewIsInitialized = true;
+    }
+
     @Input('mapInput') set setInputData(input: MapInput) {
         if (!input) return;
-        this.setupMap(input);
+        this.mapInput = input;
+        if (this.viewIsInitialized) {
+            this.setupMap(input);
+        }
     }
     @Output() onMarkerClicked = new EventEmitter<number>();
 
