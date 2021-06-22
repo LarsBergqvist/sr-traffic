@@ -6,6 +6,7 @@
         "start": "ng serve",
         "startSSL": "ng serve --host=0.0.0.0 --port=4300 --ssl --ssl-key certificates/localhost.key  --ssl-cert certificates/localhost.crt",
         "build": "ng build --prod",
+        "build-gh-pages": "ng build --configuration production --base-href=/sr-traffic/",
         "test": "ng test",
         "lint": "ng lint",
         "postinstall": "ngcc"
