@@ -1,0 +1,28 @@
+name: Build, test and Deploy
+on: [push]
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Setup node
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+      - run: yarn install
+      - run: sudo apt-get install xvfb
+      - run: xvfb-run --auto-servernum yarn test
+      - name: Publish Test Report
+        uses: mikepenz/action-junit-report@v2
+        with:
+          report_paths: '**/TESTS-*.xml'
+      - run: yarn build-gh-pages
+      - run: cp 404header.html dist/sr-traffic/404.html
+      - run: cat dist/sr-traffic/index.html >> dist/sr-traffic/404.html
+      - name: Deploy
+        uses: JamesIves/github-pages-deploy-action@4.1.4
+        with:
+          branch: gh-pages # The branch the action should deploy to.
+          folder: dist/sr-traffic # The folder the action should deploy.
+          clean: true
