@@ -85,23 +85,29 @@ export class TrafficMessagesComponent implements OnInit {
         await this.fillTrafficAreaDropDown();
     }
 
-    onFetchPosition() {
-        navigator.geolocation.getCurrentPosition(
-            async (position) => {
-                if (!this.allTrafficAreas) {
-                    // Re-fetch traffic areas if needed
-                    await this.fillTrafficAreaDropDown();
+    async onFetchPosition() {
+        try {
+            navigator.geolocation.getCurrentPosition(
+                async (position) => {
+                    if (!this.allTrafficAreas) {
+                        // Re-fetch traffic areas if needed
+                        await this.fillTrafficAreaDropDown();
+                    }
+                    this.position.lat = position.coords.latitude;
+                    this.position.lng = position.coords.longitude;
+                    this.trafficArea = await this.service.fetchClosestTrafficAreaForPosition(this.position);
+                    this.selectedArea = this.trafficArea.trafficdepartmentunitid;
+                    await this.fetchMessages();
+                },
+                (error) => {
+                    this.broker.sendMessage(new ErrorOccurredMessage(error.message));
                 }
-                this.position.lat = position.coords.latitude;
-                this.position.lng = position.coords.longitude;
-                this.trafficArea = await this.service.fetchClosestTrafficAreaForPosition(this.position);
-                this.selectedArea = this.trafficArea.trafficdepartmentunitid;
-                await this.fetchMessages();
-            },
-            (error) => {
-                this.broker.sendMessage(new ErrorOccurredMessage(error.message));
-            }
-        );
+            );
+        } catch (error) {
+            this.broker.sendMessage(new ErrorOccurredMessage('Geolocation is not available'));
+            this.selectedArea = 0;
+            await this.fetchMessages();
+        }
     }
 
     onShowUserOnMap() {
