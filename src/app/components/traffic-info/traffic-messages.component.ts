@@ -64,6 +64,8 @@ export class TrafficMessagesComponent implements OnInit {
     private trafficArea: TrafficArea;
     private allTrafficAreas: TrafficArea[];
 
+    geolocationAvailable = false;
+
     constructor(
         private readonly broker: MessageBrokerService,
         private readonly service: TrafficService,
@@ -72,6 +74,7 @@ export class TrafficMessagesComponent implements OnInit {
     ) {}
 
     async ngOnInit() {
+        this.geolocationAvailable = 'geolocation' in navigator;
         const settings = this.localStorageService.get<AppSettings>(this.AppSettingsKey);
         if (settings) {
             this.settings = settings;
