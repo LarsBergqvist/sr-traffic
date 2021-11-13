@@ -47,7 +47,7 @@ export class MapComponent implements AfterViewInit, OnDestroy {
     }
 
     ngOnDestroy() {
-        this.unsubscribe$.next();
+        this.unsubscribe$.next(undefined);
         this.unsubscribe$.complete();
     }
 

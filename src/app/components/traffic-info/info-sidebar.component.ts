@@ -33,7 +33,7 @@ export class InfoSideBarComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy(): void {
-        this.unsubscribe$.next();
+        this.unsubscribe$.next(undefined);
         this.unsubscribe$.complete();
     }
 
