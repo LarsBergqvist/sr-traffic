@@ -5059,6 +5059,7 @@ minipass-fetch@^1.3.0, minipass-fetch@^1.3.2:
   resolved "https://registry.yarnpkg.com/minipass-fetch/-/minipass-fetch-1.3.3.tgz#34c7cea038c817a8658461bf35174551dce17a0a"
   integrity sha512-akCrLDWfbdAWkMLBxJEeWTdNsjML+dt5YgOI4gJ53vuO0vrmYQkUPxa6j6V65s9CcePIr2SSWqjT2EcrNseryQ==
   dependencies:
+    encoding "^0.1.12"
     minipass "^3.1.0"
     minipass-sized "^1.0.3"
     minizlib "^2.0.0"
@@ -6111,10 +6112,10 @@ primeicons@^5.0.0:
   resolved "https://registry.yarnpkg.com/primeicons/-/primeicons-5.0.0.tgz#73a0b6028a77c58a9eeb331ad13aaf085e8451ee"
   integrity sha512-heygWF0X5HFI1otlZE62pp6ye7sZ8om78J9au2BRkg8O7Y8AHTZ9qKMRzchZUHLe8zUAvdi6hZzzm9XxgwIExw==
 
-primeng@^13.0.0-rc.2:
-  version "13.0.0-rc.2"
-  resolved "https://registry.yarnpkg.com/primeng/-/primeng-13.0.0-rc.2.tgz#6b294c747eb0e95bb8e5b1ebf42a2c1586224616"
-  integrity sha512-Y0ktkNOttaNVthC5g259Diw5c9BjgvqGxzceZ3gv83m3+8AUbnA+CcNN1Q8a4u7awm9cSoQ2F9LBRrip2Mqr+Q==
+primeng@^13.0.0:
+  version "13.0.2"
+  resolved "https://registry.yarnpkg.com/primeng/-/primeng-13.0.2.tgz#63865ef0face31831a96143610ddb7bcb25165ac"
+  integrity sha512-OVjwdX37ypV5kNyw+/8cUFLN6TIZOPV7snt47okRFhUp9lRv1gTKXbKc2BXrewFdlDrSrNTfD0iQ1oC0z5qr0Q==
   dependencies:
     tslib "^2.3.0"
 
