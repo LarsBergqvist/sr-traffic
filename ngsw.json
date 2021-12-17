@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1636806140696,
+  "timestamp": 1639719516812,
   "index": "/sr-traffic/index.html",
   "assetGroups": [
     {
@@ -13,11 +13,11 @@
       "urls": [
         "/sr-traffic/favicon.ico",
         "/sr-traffic/index.html",
-        "/sr-traffic/main.39ac1ba1cdc1f301.js",
+        "/sr-traffic/main.2ecfa1ddf3443dc4.js",
         "/sr-traffic/manifest.webmanifest",
         "/sr-traffic/polyfills.d7baf4767a55c28a.js",
         "/sr-traffic/runtime.07a02435d0d247b0.js",
-        "/sr-traffic/styles.78701c0ecfbf3b08.css"
+        "/sr-traffic/styles.67418a551e34054e.css"
       ],
       "patterns": []
     },
@@ -64,8 +64,8 @@
     "/sr-traffic/color.dae87a04d07ca92b.png": "ff4c4bcb2207891b292f544edb4da9d2df5d45cf",
     "/sr-traffic/favicon.ico": "e2bc4043acada63d7ad28b5a869d1357222b6cd3",
     "/sr-traffic/hue.8b1818380241e6ac.png": "f81ae627637a684614aa726e206c73ce099a01fd",
-    "/sr-traffic/index.html": "9610cb5d82b04e4b091274b3c28a5a965ca1b58b",
-    "/sr-traffic/main.39ac1ba1cdc1f301.js": "0933a3bdd984cefa4347e8ba32e7bd2fab2d915b",
+    "/sr-traffic/index.html": "367c4ff8a85742cd1841b897d6d32a8e337fd00d",
+    "/sr-traffic/main.2ecfa1ddf3443dc4.js": "981eb5635924a6bbb22dc874f6393492c20be229",
     "/sr-traffic/manifest.webmanifest": "3ab786464167e6b0b33f796f2801949ffe43d169",
     "/sr-traffic/polyfills.d7baf4767a55c28a.js": "291f803a548f3fa150e4147a736011d86a260824",
     "/sr-traffic/primeicons.29151a741d66863a.woff": "21e477ea19e15b66344bcc23b3fbb2161092a707",
@@ -73,7 +73,7 @@
     "/sr-traffic/primeicons.76044b1c189cc4d7.svg": "621775b2ec555fd2dd152a24390cf6dfeee168b1",
     "/sr-traffic/primeicons.964f445f3ea9db80.eot": "ccf65e40680b0ede6ab46939d421c831ae6afcf4",
     "/sr-traffic/runtime.07a02435d0d247b0.js": "83d76c6f883c79ecd69be1e958c02d7000c4da06",
-    "/sr-traffic/styles.78701c0ecfbf3b08.css": "f3a6fe32eb7128da45c7b97ce469ac8886f8a42e"
+    "/sr-traffic/styles.67418a551e34054e.css": "3ccaf6d156e50903b08fdcccb4a4e5132a7a8043"
   },
   "navigationUrls": [
     {
