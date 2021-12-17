@@ -23,7 +23,7 @@
         "@angular/platform-browser-dynamic": "~13.0.1",
         "@angular/router": "~13.0.1",
         "@angular/service-worker": "~13.0.1",
-        "ol": "^6.5.0",
+        "ol": "6.5.0",
         "primeflex": "^2.0.0",
         "primeicons": "^5.0.0",
         "primeng": "^13.0.0",
