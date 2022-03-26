@@ -1,7 +1,9 @@
-name: Build, test and Deploy
-on: [push]
+name: Test, Build and Deploy
+on:
+  push:
+    branches: ['**']
 jobs:
-  build-and-deploy:
+  test-and-build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -10,19 +12,40 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: '14'
-      - run: yarn install
-      - run: sudo apt-get install xvfb
-      - run: xvfb-run --auto-servernum yarn test
-      - name: Publish Test Report
+      - name: Install packages
+        run: yarn install
+      - name: Run tests
+        run: |
+          sudo apt-get install xvfb
+          xvfb-run --auto-servernum yarn test
+      - name: Report test results
         uses: mikepenz/action-junit-report@v2
         with:
           report_paths: '**/TESTS-*.xml'
-      - run: yarn build-gh-pages
-      - run: cp 404header.html dist/sr-traffic/404.html
-      - run: cat dist/sr-traffic/index.html >> dist/sr-traffic/404.html
-      - name: Deploy
+      - name: Build for GitHub pages
+        run: |
+          yarn build-gh-pages
+          cp 404header.html dist/sr-traffic/404.html
+          cat dist/sr-traffic/index.html >> dist/sr-traffic/404.html
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: build-artifacts
+          path: dist/sr-traffic
+  deploy:
+    needs: test-and-build
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Download build artifacts
+        uses: actions/download-artifact@v2
+        with:
+          name: build-artifacts
+          path: dist/sr-traffic
+      - name: Deploy to gh-pages branch
         uses: JamesIves/github-pages-deploy-action@4.1.4
         with:
-          branch: gh-pages # The branch the action should deploy to.
-          folder: dist/sr-traffic # The folder the action should deploy.
-          clean: true
+          branch: gh-pages
+          folder: dist/sr-traffic
