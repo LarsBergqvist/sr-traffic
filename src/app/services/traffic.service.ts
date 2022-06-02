@@ -8,6 +8,7 @@ import { calcDistanceKm } from '../utils/distance-helper';
 import { convertFromJSONstring } from '../utils/date-helper';
 import { LoggingService } from './logging.service';
 import { GeoPosition } from '../view-models/geo-position';
+import { lastValueFrom } from 'rxjs';
 
 export enum Priority {
     Empty = 0,
@@ -59,14 +60,14 @@ export class TrafficService extends SRBaseService {
 
     async fetchAllTrafficAreas(): Promise<TrafficArea[]> {
         let url = `${this.BaseUrl}traffic/areas/?page=${1}&size=${100}&${this.FormatParam}`;
-        const res = await this.http.get<TrafficAreasResult>(`${url}`).toPromise();
+        const res = await lastValueFrom(this.http.get<TrafficAreasResult>(`${url}`));
         res.areas.sort((a, b) => a.name.localeCompare(b.name));
         return res.areas;
     }
 
     async fetchClosestTrafficAreaForPosition(position: GeoPosition): Promise<TrafficArea> {
         let url = `${this.BaseUrl}traffic/areas/?longitude=${position.lng}&latitude=${position.lat}&${this.FormatParam}`;
-        const res = await this.http.get<TrafficAreaResult>(`${url}`).toPromise();
+        const res = await lastValueFrom(this.http.get<TrafficAreaResult>(`${url}`));
         return res.area;
     }
 
@@ -91,7 +92,7 @@ export class TrafficService extends SRBaseService {
     }
 
     private async fetchMessages(url: string, position: GeoPosition): Promise<TrafficMessageViewModel[]> {
-        const res = await this.http.get<TrafficMessagesResult>(`${url}`).toPromise();
+        const res = await lastValueFrom(this.http.get<TrafficMessagesResult>(`${url}`));
         const messages: TrafficMessageViewModel[] = [];
         res.messages.forEach((e) => {
             let m = new TrafficMessageViewModel();
