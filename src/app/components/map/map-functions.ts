@@ -1,7 +1,6 @@
 import { click } from 'ol/events/condition';
 import Feature from 'ol/Feature';
 import Select, { SelectEvent } from 'ol/interaction/Select';
-import VectorLayer from 'ol/layer/Vector';
 import Map from 'ol/Map';
 import { Fill, Icon, Style, Text } from 'ol/style';
 
@@ -60,7 +59,7 @@ export interface CallBackOnClickFunction {
 
 export function setupMarkerClickHandler(
     map: Map,
-    markersLayer: VectorLayer,
+    markersLayer: any,
     allMarkers: Feature[],
     callbackOnClick: CallBackOnClickFunction
 ) {
