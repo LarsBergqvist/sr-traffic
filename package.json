@@ -26,7 +26,7 @@
         "ol": "7.1.0",
         "primeflex": "^2.0.0",
         "primeicons": "^5.0.0",
-        "primeng": "^14.0.1",
+        "primeng": "^14.1.1",
         "rxjs": "7.4",
         "tslib": "^2.3.0",
         "zone.js": "~0.11.4"
