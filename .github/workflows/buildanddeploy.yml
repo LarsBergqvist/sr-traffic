@@ -1,51 +1,51 @@
 name: Test, Build and Deploy
 on:
-  push:
-    branches: ['**']
+    push:
+        branches: ['**']
 jobs:
-  test-and-build:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-      - name: Setup node
-        uses: actions/setup-node@v2
-        with:
-          node-version: '14'
-      - name: Install packages
-        run: yarn install
-      - name: Run tests
-        run: |
-          sudo apt-get install xvfb
-          xvfb-run --auto-servernum yarn test
-      - name: Report test results
-        uses: mikepenz/action-junit-report@v2
-        with:
-          report_paths: '**/TESTS-*.xml'
-      - name: Build for GitHub pages
-        run: |
-          yarn build-gh-pages
-          cp 404header.html dist/sr-traffic/404.html
-          cat dist/sr-traffic/index.html >> dist/sr-traffic/404.html
-      - name: Upload artifacts
-        uses: actions/upload-artifact@v2
-        with:
-          name: build-artifacts
-          path: dist/sr-traffic
-  deploy:
-    needs: test-and-build
-    runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main'
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-      - name: Download build artifacts
-        uses: actions/download-artifact@v2
-        with:
-          name: build-artifacts
-          path: dist/sr-traffic
-      - name: Deploy to gh-pages branch
-        uses: JamesIves/github-pages-deploy-action@4.1.4
-        with:
-          branch: gh-pages
-          folder: dist/sr-traffic
+    test-and-build:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v3
+            - name: Setup node
+              uses: actions/setup-node@v3
+              with:
+                  node-version: 16
+            - name: Install packages
+              run: yarn install
+            - name: Run tests
+              run: |
+                  sudo apt-get install xvfb
+                  xvfb-run --auto-servernum yarn test
+            - name: Report test results
+              uses: mikepenz/action-junit-report@v3
+              with:
+                  report_paths: '**/TESTS-*.xml'
+            - name: Build for GitHub pages
+              run: |
+                  yarn build-gh-pages
+                  cp 404header.html dist/sr-traffic/404.html
+                  cat dist/sr-traffic/index.html >> dist/sr-traffic/404.html
+            - name: Upload artifacts
+              uses: actions/upload-artifact@v3
+              with:
+                  name: build-artifacts
+                  path: dist/sr-traffic
+    deploy:
+        needs: test-and-build
+        runs-on: ubuntu-latest
+        if: github.ref == 'refs/heads/main'
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v3
+            - name: Download build artifacts
+              uses: actions/download-artifact@v3
+              with:
+                  name: build-artifacts
+                  path: dist/sr-traffic
+            - name: Deploy to gh-pages branch
+              uses: JamesIves/github-pages-deploy-action@v4.4.1
+              with:
+                  branch: gh-pages
+                  folder: dist/sr-traffic
