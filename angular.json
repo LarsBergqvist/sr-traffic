@@ -5,7 +5,8 @@
             "enabled": true,
             "path": ".cache",
             "environment": "all"
-        }
+        },
+        "analytics": false
     },
     "version": 1,
     "newProjectRoot": "projects",
@@ -71,18 +72,18 @@
                 "serve": {
                     "builder": "@angular-devkit/build-angular:dev-server",
                     "options": {
-                        "browserTarget": "sr-traffic:build"
+                      "buildTarget": "sr-traffic:build"
                     },
                     "configurations": {
                         "production": {
-                            "browserTarget": "sr-traffic:build:production"
+                          "buildTarget": "sr-traffic:build:production"
                         }
                     }
                 },
                 "extract-i18n": {
                     "builder": "@angular-devkit/build-angular:extract-i18n",
                     "options": {
-                        "browserTarget": "sr-traffic:build"
+                      "buildTarget": "sr-traffic:build"
                     }
                 },
                 "test": {
