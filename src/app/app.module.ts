@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { ToolbarModule } from 'primeng/toolbar';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SidebarModule } from 'primeng/sidebar';
@@ -28,8 +28,7 @@ import { MapSidebarComponent } from './components/map/map-sidebar.component';
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { InfoSideBarComponent } from './components/traffic-info/info-sidebar.component';
 
-@NgModule({
-    declarations: [
+@NgModule({ declarations: [
         MapComponent,
         AppComponent,
         TrafficMessagesComponent,
@@ -38,10 +37,8 @@ import { InfoSideBarComponent } from './components/traffic-info/info-sidebar.com
         InfoCardComponent,
         InfoSideBarComponent
     ],
-    imports: [
-        BrowserModule,
+    bootstrap: [AppComponent], imports: [BrowserModule,
         AppRoutingModule,
-        HttpClientModule,
         ToolbarModule,
         BrowserAnimationsModule,
         SidebarModule,
@@ -55,9 +52,7 @@ import { InfoSideBarComponent } from './components/traffic-info/info-sidebar.com
         AccordionModule,
         ServiceWorkerModule.register('ngsw-worker.js', {
             enabled: environment.production
-        })
-    ],
-    providers: [
+        })], providers: [
         MessageService,
         LoggingService,
         {
@@ -65,8 +60,7 @@ import { InfoSideBarComponent } from './components/traffic-info/info-sidebar.com
             useClass: HttpInterceptorService,
             multi: true,
             deps: [MessageBrokerService, LoggingService]
-        }
-    ],
-    bootstrap: [AppComponent]
-})
+        },
+        provideHttpClient(withInterceptorsFromDi())
+    ] })
 export class AppModule {}
