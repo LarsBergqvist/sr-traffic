@@ -28,7 +28,7 @@ jobs:
                   cp 404header.html dist/sr-traffic/404.html
                   cat dist/sr-traffic/index.html >> dist/sr-traffic/404.html
             - name: Upload artifacts
-              uses: actions/upload-artifact@v3
+              uses: actions/upload-artifact@v4
               with:
                   name: build-artifacts
                   path: dist/sr-traffic
@@ -40,7 +40,7 @@ jobs:
             - name: Checkout
               uses: actions/checkout@v3
             - name: Download build artifacts
-              uses: actions/download-artifact@v4.1.7
+              uses: actions/download-artifact@v4
               with:
                   name: build-artifacts
                   path: dist/sr-traffic
